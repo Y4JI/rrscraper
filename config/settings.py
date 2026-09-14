@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'apps.login',
     'apps.register',
     'apps.home',
+    'apps.profile',
+    'apps.user_settings',
 ]
 
 MIDDLEWARE = [
@@ -136,6 +138,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = 'login:login'
 LOGIN_REDIRECT_URL = 'home:home'

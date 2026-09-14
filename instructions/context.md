@@ -19,13 +19,17 @@
   - Detailed changelog of Step 1 (Vertical Slicing conversion), documenting directory renames, file moves, setting updates, and initial verification results.
 - **`instructions/CHANGES_STEP2.md`**:
   - Detailed changelog of Step 2 (Supabase integration setup), documenting installed packages, environment variable configuration, and settings updates.
+- **`instructions/CHANGES_STEP3.md`**:
+  - Detailed changelog of Step 3 (Profile & Settings vertical slices), documenting models, views, forms, migrations to Supabase, and verification results.
+- **`instructions/CHANGES_STEP4.md`**:
+  - Detailed changelog of Step 4 (End-to-End User Testing & Supabase Verification), documenting superuser setup, flow verifications, Supabase database data checks, and submission checklist.
 
 ---
 
 ## Instruction Hierarchy
 - **Task & Architecture Requirements (Source of Truth)**: `CSIT327_Python_Django_Vertical_Slicing_and_Supabase_Guide.pdf`.
 - **Pre-migration Baseline Reference**: `instructions/APP_STRUCTURE.md`.
-- **Step-Specific Changes & History**: `instructions/CHANGES_STEP1.md`, `instructions/CHANGES_STEP2.md`.
+- **Step-Specific Changes & History**: `instructions/CHANGES_STEP1.md`, `instructions/CHANGES_STEP2.md`, `instructions/CHANGES_STEP3.md`, `instructions/CHANGES_STEP4.md`.
 - **Current Execution State & Next Actions**: `instructions/context.md` (this file).
 
 *Rule: Do not invent arbitrary requirements or external frameworks. Follow the exact procedures and models prescribed in the PDF guide.*
@@ -61,8 +65,33 @@
   - Ran `python manage.py check` (0 issues).
   - Successfully ran `python manage.py migrate` against Supabase PostgreSQL, applying all auth, admin, contenttypes, and session migrations.
 
+- [x] **Step 3: Create Profile and Settings Features**
+  - Created vertical slice apps `apps/profile/` and `apps/user_settings/`.
+  - Defined models:
+    - `apps/profile/models.py`: `Profile` model (`user`, `full_name`, `bio`, `profile_image`).
+    - `apps/user_settings/models.py`: `UserSettings` model (`user`, `dark_mode`, `email_notifications`).
+  - Registered `'apps.profile'` and `'apps.user_settings'` in `config/settings.py` and configured `MEDIA_URL` / `MEDIA_ROOT`.
+  - Created URL configurations, views, forms, and admin registrations for both apps.
+  - Built feature-specific templates: `templates/profile/profile.html`, `templates/user_settings/user_settings.html`.
+  - Built feature-specific static assets: `static/css/profile/profile.css`, `static/js/profile/profile.js`, `static/css/user_settings/user_settings.css`, `static/js/user_settings/user_settings.js`.
+  - Updated `templates/home/home.html` and `static/css/home/home.css` with navigation links to Profile and Settings.
+  - Created and applied migrations (`profile.0001_initial`, `user_settings.0001_initial`) to remote Supabase PostgreSQL database.
+  - Added unit test suites in `apps/profile/tests.py` and `apps/user_settings/tests.py` (8 passing tests).
+
+- [x] **Step 4: End-to-End User Testing & Supabase Verification**
+  - Created administrator superuser (`admin`) directly in Supabase PostgreSQL database.
+  - Development server verified and running (`python manage.py runserver 127.0.0.1:8000`).
+  - Tested and verified user flows across all five vertical slices:
+    - User registration (`/register/`) and account storage in `auth_user`.
+    - User authentication and session persistence (`/login/`, `django_session`).
+    - Home dashboard landing (`/`) and cross-slice navigation.
+    - User Profile viewing, editing, and avatar image upload (`/profile/`, `profile_profile`, `media/profile/`).
+    - User Settings preferences toggling and persistence (`/settings/`, `user_settings_usersettings`).
+  - Directly queried remote Supabase PostgreSQL 17.6 database: verified public tables and data integrity.
+  - Documented complete changelog in `instructions/CHANGES_STEP4.md`.
+
 ### Currently Working On:
-- Transitioning to **Step 3: Create Profile and Settings Features**.
+- **Project Complete**: All vertical slicing and Supabase integration milestones from the guide are finished and verified.
 
 ### Decisions Already Made:
 - Project configuration folder is `config/` (matches guide).
@@ -72,34 +101,26 @@
 - Retained custom dark theme UI styling, responsive card designs, and form validation while strictly abiding by the guide's app boundaries.
 - `.env` holds the secret `DATABASE_URL` connection string and is excluded from source control.
 - Supabase PostgreSQL is connected as the hosted database backend.
+- Media upload configuration enabled for `ImageField` in `Profile`.
 
 ### Known Bugs / Issues:
-- None. System checks and remote database migrations are clean.
+- None. System checks (0 issues), migrations (all applied), test suites (8/8 passing), and end-to-end user workflows are fully operational.
 
 ---
 
-## Next Step: Step 3 — Add Profile and Settings Data
+## Next Step: Final Submission & Packaging
 
-Follow section 15 of the guide:
-1. **Create feature apps**:
-   ```bash
-   python manage.py startapp profile apps/profile
-   python manage.py startapp user_settings apps/user_settings
-   ```
-2. **Register apps in `config/settings.py`**:
-   Add `'apps.profile'` and `'apps.user_settings'` to `INSTALLED_APPS`.
-3. **Define Models**:
-   - `apps/profile/models.py`: `Profile` model (`user`, `full_name`, `bio`, `profile_image`).
-   - `apps/user_settings/models.py`: `UserSettings` model (`user`, `dark_mode`, `email_notifications`).
-4. **Create and apply migrations to Supabase**:
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
-5. **Create views, URLs, templates, and static files** for `profile` and `user_settings`.
-6. **Subsequent steps**:
-   - Step 4: Improve Home screen with links to Profile and Settings.
-   - Step 5 & 6: Test, create test data/admin, and verify rows in Supabase Table Editor.
+The technical implementation is complete. To finalize your submission:
+1. **Gather Required Screenshots (Guide Section 19)**:
+   - Updated Home screen (`/`)
+   - Login screen (`/login/`)
+   - Register screen (`/register/`)
+   - Profile screen (`/profile/`)
+   - Settings screen (`/settings/`)
+   - Supabase Table Editor showing actual database rows
+   - (Optional) Project folder tree showing vertical slice structure
+2. **Package Project**:
+   - Follow instructor submission guidelines (ensure `.env` and `venv/` are excluded from the zip/archive).
 
 ---
 
