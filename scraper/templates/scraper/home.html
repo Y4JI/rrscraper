@@ -7,8 +7,9 @@
     <header class="dashboard-header">
         <div class="header-content">
             <h1 class="logo-text">Royal Road <span>Scraper</span></h1>
-            <nav class="main-nav">
-                <a href="{% url 'login' %}" class="btn btn-outline">Logout</a>
+            <nav class="main-nav" style="display: flex; align-items: center; gap: 1rem;">
+                <span class="user-greeting" style="color: var(--text-muted); font-size: 0.95rem;">Logged in as: <strong style="color: var(--text-main);">{{ request.user.username }}</strong></span>
+                <a href="{% url 'logout' %}" class="btn btn-outline">Logout</a>
             </nav>
         </div>
     </header>
@@ -16,8 +17,9 @@
     <main class="dashboard-main">
         <div class="welcome-banner">
             <h2>HOME SCREEN</h2>
-            <p>Welcome to the Royal Road Scraper dashboard. The scraping features will be available soon.</p>
+            <p>Welcome, {{ request.user.username }}! You are authenticated. The scraping features will be available soon.</p>
         </div>
+
 
         <div class="search-section card">
             <h3>Find Novels</h3>
