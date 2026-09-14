@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Royal Road Scraper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/home/home.css' %}">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1 class="logo-text">Royal Road <span>Scraper</span></h1>
+                <nav class="main-nav">
+                    <span class="user-greeting">Logged in as: <strong>{{ request.user.username }}</strong></span>
+                    <a href="{% url 'login:logout' %}" class="btn btn-outline">Logout</a>
+                </nav>
+            </div>
+        </header>
+
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <main class="dashboard-main">
+            <div class="welcome-banner">
+                <h2>HOME SCREEN</h2>
+                <p>Welcome, {{ request.user.username }}! You are authenticated. The scraping features will be available soon.</p>
+            </div>
+
+            <div class="search-section card">
+                <h3>Find Novels</h3>
+                <p class="search-desc">Search the database for your favorite web fictions (Mock UI)</p>
+                <div class="search-bar">
+                    <input type="text" id="novelSearchInput" placeholder="Search novels by title, author, or tag...">
+                    <button id="novelSearchBtn" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Novels Scraped</div>
+                </div>
+                <div class="stat-card card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Chapters Downloaded</div>
+                </div>
+                <div class="stat-card card">
+                    <div class="stat-value">Idle</div>
+                    <div class="stat-label">Scraper Status</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="{% static 'js/home/home.js' %}"></script>
+</body>
+</html>
