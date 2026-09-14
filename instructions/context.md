@@ -17,13 +17,15 @@
   - Documents the original/baseline folder structure prior to vertical slice refactoring.
 - **`instructions/CHANGES_STEP1.md`**:
   - Detailed changelog of Step 1 (Vertical Slicing conversion), documenting directory renames, file moves, setting updates, and initial verification results.
+- **`instructions/CHANGES_STEP2.md`**:
+  - Detailed changelog of Step 2 (Supabase integration setup), documenting installed packages, environment variable configuration, and settings updates.
 
 ---
 
 ## Instruction Hierarchy
 - **Task & Architecture Requirements (Source of Truth)**: `CSIT327_Python_Django_Vertical_Slicing_and_Supabase_Guide.pdf`.
 - **Pre-migration Baseline Reference**: `instructions/APP_STRUCTURE.md`.
-- **Step-Specific Changes & History**: `instructions/CHANGES_STEP1.md`.
+- **Step-Specific Changes & History**: `instructions/CHANGES_STEP1.md`, `instructions/CHANGES_STEP2.md`.
 - **Current Execution State & Next Actions**: `instructions/context.md` (this file).
 
 *Rule: Do not invent arbitrary requirements or external frameworks. Follow the exact procedures and models prescribed in the PDF guide.*
@@ -49,9 +51,18 @@
   - Deleted obsolete `scraper/` folder.
   - Verified system check (`python manage.py check` returned 0 issues).
   - Verified live development server run (`python manage.py runserver`), confirming login, register, and home screens load, authenticate, redirect, and serve static CSS/JS without errors.
+- [x] **Step 2: Supabase Integration & Initial Migration**
+  - Installed database dependencies: `psycopg[binary]`, `dj-database-url`, `python-dotenv`, `Pillow`.
+  - Generated `requirements.txt`.
+  - Verified `.env` is ignored by Git in `.gitignore`.
+  - Created `.env.example` template with connection URI documentation.
+  - Configured local `.env` with Supabase `DATABASE_URL`.
+  - Updated `config/settings.py` to import `load_dotenv` and `dj_database_url`, load `.env`, and parse `DATABASE_URL` for PostgreSQL with connection pooling parameters (`conn_max_age=600`, `ssl_require=True`).
+  - Ran `python manage.py check` (0 issues).
+  - Successfully ran `python manage.py migrate` against Supabase PostgreSQL, applying all auth, admin, contenttypes, and session migrations.
 
 ### Currently Working On:
-- Transitioning to **Step 2: Supabase Integration**.
+- Transitioning to **Step 3: Create Profile and Settings Features**.
 
 ### Decisions Already Made:
 - Project configuration folder is `config/` (matches guide).
@@ -59,36 +70,36 @@
 - Feature-specific templates live under `templates/<feature>/`.
 - Feature-specific static assets live under `static/<type>/<feature>/`.
 - Retained custom dark theme UI styling, responsive card designs, and form validation while strictly abiding by the guide's app boundaries.
+- `.env` holds the secret `DATABASE_URL` connection string and is excluded from source control.
+- Supabase PostgreSQL is connected as the hosted database backend.
 
 ### Known Bugs / Issues:
-- None. System checks and runtime navigation are clean.
+- None. System checks and remote database migrations are clean.
 
 ---
 
-## Next Step: Step 2 — Integrate Supabase
+## Next Step: Step 3 — Add Profile and Settings Data
 
-Follow sections 10–14 of the guide:
-1. **Install database packages**:
+Follow section 15 of the guide:
+1. **Create feature apps**:
    ```bash
-   pip install psycopg[binary] dj-database-url python-dotenv Pillow
-   pip freeze > requirements.txt
+   python manage.py startapp profile apps/profile
+   python manage.py startapp user_settings apps/user_settings
    ```
-2. **Ensure `.env` is ignored**: Verify `.env` is in `.gitignore`.
-3. **Set up `.env`**: Prompt the user for (or add) their Supabase PostgreSQL connection string:
-   ```env
-   DATABASE_URL=postgresql://postgres.[PROJECT-REF]:[YOUR-PASSWORD]@[POOLER-HOST]:5432/postgres
+2. **Register apps in `config/settings.py`**:
+   Add `'apps.profile'` and `'apps.user_settings'` to `INSTALLED_APPS`.
+3. **Define Models**:
+   - `apps/profile/models.py`: `Profile` model (`user`, `full_name`, `bio`, `profile_image`).
+   - `apps/user_settings/models.py`: `UserSettings` model (`user`, `dark_mode`, `email_notifications`).
+4. **Create and apply migrations to Supabase**:
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
    ```
-4. **Update `config/settings.py`**:
-   - Import `dotenv` and `dj_database_url`.
-   - Call `load_dotenv(BASE_DIR / ".env")`.
-   - Configure `DATABASES` using `dj_database_url.parse(os.environ["DATABASE_URL"], conn_max_age=600, ssl_require=True)`.
-5. **Run check and migrations**:
-   - `python manage.py check`
-   - `python manage.py migrate` (creates default auth/session tables in Supabase PostgreSQL).
-6. **Subsequent steps to follow**:
-   - Step 3: Implement `apps/profile` and `apps/user_settings` models, views, templates, static files, and migrations.
+5. **Create views, URLs, templates, and static files** for `profile` and `user_settings`.
+6. **Subsequent steps**:
    - Step 4: Improve Home screen with links to Profile and Settings.
-   - Step 5 & 6: Test and verify database rows in Supabase Table Editor.
+   - Step 5 & 6: Test, create test data/admin, and verify rows in Supabase Table Editor.
 
 ---
 
