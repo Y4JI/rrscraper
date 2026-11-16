@@ -5,15 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Royal Road Scraper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/register/register.css' %}">
 </head>
 <body>
-    <div class="app-container">
+    <main class="app-container">
+        <aside class="auth-story" aria-label="About RRSCRAPER">
+            <div class="logo-text">Royal Road <span>Scraper</span></div>
+            <div class="story-copy"><span class="eyebrow">FOR THE STORIES YOU FOLLOW</span><h2>One place.<br>Endless chapters.</h2><p>A quieter home for your web fiction collection and reading journey.</p></div>
+            <div class="story-bottom"><span class="book-mark" aria-hidden="true">R</span><span>Your personal<br>reading companion</span></div>
+        </aside>
         <div class="card auth-card">
             <div class="card-header">
-                <h1 class="logo-text">Royal Road <span>Scraper</span></h1>
-                <p class="subtitle">Create a new account to get started.</p>
+                <span class="eyebrow">A SPACE FOR YOUR STORIES</span><h1>Start your story.</h1>
+                <p class="subtitle">Create your account and make room for your next great read.</p>
             </div>
             
             {% if messages %}
@@ -45,7 +49,7 @@
 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" value="{{ form.username.value|default:'' }}" placeholder="Choose a username" required>
+                    <input type="text" id="username" autocomplete="username" name="username" value="{{ form.username.value|default:'' }}" placeholder="Choose a username" required>
                     {% if form.username.errors %}
                         <div class="field-error">
                             {% for err in form.username.errors %}
@@ -57,7 +61,7 @@
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{{ form.email.value|default:'' }}" placeholder="Enter your email" required>
+                    <input type="email" id="email" autocomplete="email" name="email" value="{{ form.email.value|default:'' }}" placeholder="Enter your email" required>
                     {% if form.email.errors %}
                         <div class="field-error">
                             {% for err in form.email.errors %}
@@ -69,7 +73,7 @@
                 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Create a password (min 6 characters)" required>
+                    <input type="password" id="password" autocomplete="new-password" name="password" placeholder="Create a password (min 6 characters)" required>
                     {% if form.password.errors %}
                         <div class="field-error">
                             {% for err in form.password.errors %}
@@ -81,7 +85,7 @@
 
                 <div class="form-group">
                     <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                    <input type="password" id="confirm_password" autocomplete="new-password" name="confirm_password" placeholder="Confirm your password" required>
                     {% if form.confirm_password.errors %}
                         <div class="field-error">
                             {% for err in form.confirm_password.errors %}
@@ -98,7 +102,7 @@
                 <p>Already have an account? <a href="{% url 'login:login' %}">Back to Login</a></p>
             </div>
         </div>
-    </div>
+    </main>
     <script src="{% static 'js/register/register.js' %}"></script>
 </body>
 </html>
