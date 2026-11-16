@@ -1,0 +1,106 @@
+erDiagram
+    auth_user ||--|| profile_profile : "1:1 has"
+    auth_user ||--|| user_settings_usersettings : "1:1 configures"
+    auth_user ||--o{ scraper_job : "1:N triggers"
+    auth_user ||--o{ tracker_bookmark : "1:N saves"
+
+    scraper_novel ||--o{ scraper_chapter : "1:N contains"
+    scraper_novel ||--o{ scraper_job : "1:0..N targets"
+    scraper_novel ||--o{ tracker_bookmark : "1:N tracks"
+
+    scraper_novel ||--|{ scraper_novel_tags : "1:N categorized"
+    scraper_tag ||--|{ scraper_novel_tags : "1:N applies"
+
+    scraper_chapter ||--o{ tracker_bookmark : "0..1:N last_read"
+
+    auth_user {
+        INTEGER id PK
+        VARCHAR username "UQ, NN"
+        VARCHAR email "NN"
+        VARCHAR password "NN"
+        VARCHAR first_name "NN"
+        VARCHAR last_name "NN"
+        BOOLEAN is_active "NN"
+        BOOLEAN is_staff "NN"
+        BOOLEAN is_superuser "NN"
+        TIMESTAMPTZ date_joined "NN"
+        TIMESTAMPTZ last_login
+    }
+
+    profile_profile {
+        BIGINT id PK
+        INTEGER user_id "FK, UQ, NN"
+        VARCHAR full_name
+        TEXT bio
+        VARCHAR profile_image
+    }
+
+    user_settings_usersettings {
+        BIGINT id PK
+        INTEGER user_id "FK, UQ, NN"
+        BOOLEAN dark_mode "NN"
+        BOOLEAN email_notifications "NN"
+    }
+
+    scraper_novel {
+        BIGINT id PK
+        VARCHAR royalroad_id "UQ, NN"
+        VARCHAR title "NN"
+        VARCHAR author_name "NN"
+        TEXT synopsis
+        VARCHAR cover_image_url
+        VARCHAR status "NN"
+        NUMERIC rating
+        INTEGER total_pages "NN"
+        VARCHAR source_url "NN"
+        TIMESTAMPTZ created_at "NN"
+        TIMESTAMPTZ updated_at "NN"
+    }
+
+    scraper_chapter {
+        BIGINT id PK
+        BIGINT novel_id "FK, NN"
+        VARCHAR royalroad_chapter_id "NN"
+        INTEGER chapter_number "NN"
+        VARCHAR title "NN"
+        TEXT content "NN"
+        INTEGER word_count "NN"
+        VARCHAR source_url "NN"
+        TIMESTAMPTZ release_date
+        TIMESTAMPTZ scraped_at "NN"
+    }
+
+    scraper_tag {
+        BIGINT id PK
+        VARCHAR name "UQ, NN"
+        VARCHAR slug "UQ, NN"
+    }
+
+    scraper_novel_tags {
+        BIGINT id PK
+        BIGINT novel_id "FK, NN"
+        BIGINT tag_id "FK, NN"
+    }
+
+    scraper_job {
+        BIGINT id PK
+        INTEGER user_id "FK, NN"
+        BIGINT novel_id "FK"
+        VARCHAR target_url "NN"
+        VARCHAR status "NN"
+        INTEGER chapters_scraped "NN"
+        TEXT error_message
+        TIMESTAMPTZ started_at "NN"
+        TIMESTAMPTZ completed_at
+    }
+
+    tracker_bookmark {
+        BIGINT id PK
+        INTEGER user_id "FK, NN"
+        BIGINT novel_id "FK, NN"
+        BIGINT last_read_chapter_id "FK"
+        VARCHAR reading_status "NN"
+        BOOLEAN is_favorite "NN"
+        TIMESTAMPTZ last_read_at "NN"
+        TIMESTAMPTZ created_at "NN"
+    }

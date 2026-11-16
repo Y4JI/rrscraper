@@ -1,0 +1,349 @@
+<mxfile host="app.diagrams.net" modified="2026-09-21T11:50:00.000Z" agent="Mozilla/5.0" version="24.0.0" type="device">
+  <diagram id="PhysicalERD_RRScraper" name="Physical ERD - Royal Road Scraper">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="950" background="#f8fafc" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Banner -->
+        <mxCell id="title_banner" value="&lt;b style='font-size: 19px;'&gt;PHYSICAL ENTITY-RELATIONSHIP DIAGRAM (ERD)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size: 13px; color: #475569;'&gt;&lt;b&gt;Proposed System:&lt;/b&gt; Royal Road Scraper &amp;amp; Web Fiction Tracker (rrscraper) &amp;nbsp;|&amp;nbsp; &lt;b&gt;Database Engine:&lt;/b&gt; PostgreSQL 17 (Supabase) &amp;nbsp;|&amp;nbsp; &lt;b&gt;Course:&lt;/b&gt; CSIT327 &amp;nbsp;|&amp;nbsp; &lt;b&gt;Student:&lt;/b&gt; Yoji Macadangdang&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cbd5e1;strokeWidth=1.5;arcSize=6;shadow=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1520" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: auth_user -->
+        <mxCell id="t_auth_user" value="auth_user" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="300" height="294" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_id" value="PK | id : INTEGER" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="30" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_username" value="UQ | username : VARCHAR(150) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#0f172a;fontStyle=1;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="54" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_email" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| email : VARCHAR(254) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="78" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_password" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| password : VARCHAR(128) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="102" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_first_name" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| first_name : VARCHAR(150)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="126" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_last_name" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| last_name : VARCHAR(150)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="150" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_is_active" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| is_active : BOOLEAN [DF: true]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="174" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_is_staff" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| is_staff : BOOLEAN [DF: false]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="198" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_is_superuser" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| is_superuser : BOOLEAN [DF: false]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="222" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_date_joined" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| date_joined : TIMESTAMPTZ [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="246" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_u_last_login" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| last_login : TIMESTAMPTZ" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_auth_user">
+          <mxGeometry y="270" width="300" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: profile_profile -->
+        <mxCell id="t_profile" value="profile_profile" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="440" width="300" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="c_prof_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_profile">
+          <mxGeometry y="30" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_prof_uid" value="FK | user_id : INTEGER [UQ, NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_profile">
+          <mxGeometry y="54" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_prof_fn" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| full_name : VARCHAR(150)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_profile">
+          <mxGeometry y="78" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_prof_bio" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| bio : TEXT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_profile">
+          <mxGeometry y="102" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_prof_img" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| profile_image : VARCHAR(100)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_profile">
+          <mxGeometry y="126" width="300" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: user_settings_usersettings -->
+        <mxCell id="t_settings" value="user_settings_usersettings" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="630" width="300" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="c_set_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_settings">
+          <mxGeometry y="30" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_set_uid" value="FK | user_id : INTEGER [UQ, NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_settings">
+          <mxGeometry y="54" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_set_dm" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| dark_mode : BOOLEAN [DF: false]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_settings">
+          <mxGeometry y="78" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_set_en" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| email_notifications : BOOLEAN [DF: true]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_settings">
+          <mxGeometry y="102" width="300" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: scraper_job -->
+        <mxCell id="t_scraper_job" value="scraper_job" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="390" y="110" width="320" height="246" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="30" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_uid" value="FK | user_id : INTEGER [NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="54" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_nid" value="FK | novel_id : BIGINT [NULL]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="78" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_url" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| target_url : VARCHAR(500) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="102" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_st" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| status : VARCHAR(30) [DF: 'PENDING']" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="126" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_cs" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| chapters_scraped : INTEGER [DF: 0]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="150" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_err" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| error_message : TEXT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="174" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_start" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| started_at : TIMESTAMPTZ [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="198" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_job_end" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| completed_at : TIMESTAMPTZ" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_scraper_job">
+          <mxGeometry y="222" width="320" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: tracker_bookmark -->
+        <mxCell id="t_bookmark" value="tracker_bookmark" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="390" y="390" width="320" height="246" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="30" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_uid" value="FK | user_id : INTEGER [NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="54" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_nid" value="FK | novel_id : BIGINT [NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="78" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_cid" value="FK | last_read_chapter_id : BIGINT [NULL]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="102" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_rs" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| reading_status : VARCHAR(30) [DF: 'READING']" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="126" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_fav" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| is_favorite : BOOLEAN [DF: false]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="150" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_lra" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| last_read_at : TIMESTAMPTZ [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="174" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_ca" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| created_at : TIMESTAMPTZ [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="198" width="320" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bm_uq" value="UQ | UNIQUE(user_id, novel_id)" style="text;strokeColor=none;fillColor=#d1fae5;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=2;fontColor=#047857;" vertex="1" parent="t_bookmark">
+          <mxGeometry y="222" width="320" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: scraper_novel -->
+        <mxCell id="t_novel" value="scraper_novel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="780" y="140" width="330" height="318" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_novel">
+          <mxGeometry y="30" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_rrid" value="UQ | royalroad_id : VARCHAR(50) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#0f172a;fontStyle=1;" vertex="1" parent="t_novel">
+          <mxGeometry y="54" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_title" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| title : VARCHAR(255) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="78" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_auth" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| author_name : VARCHAR(150) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="102" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_syn" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| synopsis : TEXT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="126" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_img" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| cover_image_url : VARCHAR(500)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="150" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_st" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| status : VARCHAR(30) [DF: 'ONGOING']" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="174" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_rt" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| rating : NUMERIC(3,2)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="198" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_tp" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| total_pages : INTEGER [DF: 0]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="222" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_src" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| source_url : VARCHAR(500) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="246" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_ca" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| created_at : TIMESTAMPTZ [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="270" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nov_ua" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| updated_at : TIMESTAMPTZ [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_novel">
+          <mxGeometry y="294" width="330" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: scraper_chapter -->
+        <mxCell id="t_chapter" value="scraper_chapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="140" width="340" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_chapter">
+          <mxGeometry y="30" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_nid" value="FK | novel_id : BIGINT [NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_chapter">
+          <mxGeometry y="54" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_rrid" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| royalroad_chapter_id : VARCHAR(50) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="78" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_num" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| chapter_number : INTEGER [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="102" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_title" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| title : VARCHAR(255) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="126" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_cnt" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| content : TEXT [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="150" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_wc" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| word_count : INTEGER [DF: 0]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="174" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_url" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| source_url : VARCHAR(500) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="198" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_rel" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| release_date : TIMESTAMPTZ" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="222" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_chap_sa" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| scraped_at : TIMESTAMPTZ [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#334155;" vertex="1" parent="t_chapter">
+          <mxGeometry y="246" width="340" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: scraper_novel_tags (Junction) -->
+        <mxCell id="t_novel_tags" value="scraper_novel_tags" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="780" y="520" width="330" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nt_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_novel_tags">
+          <mxGeometry y="30" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nt_nid" value="FK | novel_id : BIGINT [NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_novel_tags">
+          <mxGeometry y="54" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nt_tid" value="FK | tag_id : BIGINT [NN]" style="text;strokeColor=none;fillColor=#dbeafe;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="t_novel_tags">
+          <mxGeometry y="78" width="330" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_nt_uq" value="UQ | UNIQUE(novel_id, tag_id)" style="text;strokeColor=none;fillColor=#d1fae5;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=2;fontColor=#047857;" vertex="1" parent="t_novel_tags">
+          <mxGeometry y="102" width="330" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- TABLE: scraper_tag -->
+        <mxCell id="t_tag" value="scraper_tag" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;shadow=1;rounded=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="520" width="340" height="106" as="geometry" />
+        </mxCell>
+        <mxCell id="c_tag_id" value="PK | id : BIGINT" style="text;strokeColor=none;fillColor=#fee2e2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontStyle=1;fontColor=#b91c1c;" vertex="1" parent="t_tag">
+          <mxGeometry y="30" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_tag_name" value="UQ | name : VARCHAR(50) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#0f172a;fontStyle=1;" vertex="1" parent="t_tag">
+          <mxGeometry y="54" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c_tag_slug" value="UQ | slug : VARCHAR(50) [NN]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontColor=#0f172a;fontStyle=1;" vertex="1" parent="t_tag">
+          <mxGeometry y="78" width="340" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- RELATIONSHIP CONNECTIONS -->
+        <!-- 1. auth_user -> profile_profile (1:1) -->
+        <mxCell id="rel_u_p" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmandOne;endFill=0;strokeWidth=2;strokeColor=#1d4ed8;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_auth_user" target="t_profile">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 2. auth_user -> user_settings (1:1) -->
+        <mxCell id="rel_p_s" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmandOne;endFill=0;strokeWidth=2;strokeColor=#1d4ed8;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_profile" target="t_settings">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 3. auth_user -> scraper_job (1:N) -->
+        <mxCell id="rel_u_j" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;strokeWidth=2;strokeColor=#059669;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_auth_user" target="t_scraper_job">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="200" />
+              <mxPoint x="365" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 4. auth_user -> tracker_bookmark (1:N) -->
+        <mxCell id="rel_u_bm" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;strokeWidth=2;strokeColor=#059669;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_auth_user" target="t_bookmark">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="340" />
+              <mxPoint x="365" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 5. scraper_novel -> scraper_job (1:0..N) -->
+        <mxCell id="rel_nov_j" value="1 : 0..N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=2;strokeColor=#d97706;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_novel" target="t_scraper_job">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="230" />
+              <mxPoint x="750" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 6. scraper_novel -> tracker_bookmark (1:N) -->
+        <mxCell id="rel_nov_bm" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;strokeWidth=2;strokeColor=#d97706;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_novel" target="t_bookmark">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="380" />
+              <mxPoint x="750" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 7. scraper_novel -> scraper_chapter (1:N) -->
+        <mxCell id="rel_nov_c" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;strokeWidth=2;strokeColor=#dc2626;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_novel" target="t_chapter">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1145" y="250" />
+              <mxPoint x="1145" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 8. scraper_novel -> scraper_novel_tags (1:N) -->
+        <mxCell id="rel_nov_nt" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;strokeWidth=2;strokeColor=#0891b2;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_novel" target="t_novel_tags">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 9. scraper_tag -> scraper_novel_tags (1:N) -->
+        <mxCell id="rel_tag_nt" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;strokeWidth=2;strokeColor=#0891b2;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_tag" target="t_novel_tags">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 10. scraper_chapter -> tracker_bookmark (0..1:N) -->
+        <mxCell id="rel_c_bm" value="0..1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERzeroToOne;startFill=0;endArrow=ERzeroToMany;endFill=0;strokeWidth=2;strokeColor=#9333ea;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t_chapter" target="t_bookmark">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1350" y="440" />
+              <mxPoint x="1145" y="480" />
+              <mxPoint x="750" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Info & Legend Box -->
+        <mxCell id="legend_box" value="&lt;b style='font-size: 13px;'&gt;CARDINALITY &amp;amp; NOTATION GUIDE&lt;/b&gt;&lt;hr&gt;&lt;div style='text-align: left; font-size: 11px; line-height: 1.6;'&gt;&lt;b&gt;PK&lt;/b&gt;: Primary Key &amp;nbsp;|&amp;nbsp; &lt;b&gt;FK&lt;/b&gt;: Foreign Key &amp;nbsp;|&amp;nbsp; &lt;b&gt;UQ&lt;/b&gt;: Unique Constraint &amp;nbsp;|&amp;nbsp; &lt;b&gt;NN&lt;/b&gt;: NOT NULL &amp;nbsp;|&amp;nbsp; &lt;b&gt;DF&lt;/b&gt;: Default Value&lt;br&gt;&lt;b&gt;Crow's Foot Notation:&lt;/b&gt; &lt;b&gt;—||—&lt;/b&gt; Mandatory One (1) &amp;nbsp;|&amp;nbsp; &lt;b&gt;—&amp;lt;&lt;/b&gt; Mandatory Many (N) &amp;nbsp;|&amp;nbsp; &lt;b&gt;—o&amp;lt;&lt;/b&gt; Zero or Many (0..N) &amp;nbsp;|&amp;nbsp; &lt;b&gt;—o|—&lt;/b&gt; Zero or One (0..1)&lt;br&gt;&lt;b&gt;Engine:&lt;/b&gt; PostgreSQL 17 Hosted on Supabase &amp;nbsp;|&amp;nbsp; &lt;b&gt;Architecture:&lt;/b&gt; Vertical Slice Architecture (Django 5.2)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cbd5e1;strokeWidth=1.5;arcSize=6;shadow=1;align=center;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="390" y="660" width="1130" height="96" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
