@@ -50,15 +50,15 @@
 
             <div class="stats-grid">
                 <div class="stat-card card">
-                    <div class="stat-value">0</div>
+                    <div class="stat-value">{{ novel_count|default:"0" }}</div>
                     <div class="stat-label">Novels Scraped</div>
                 </div>
                 <div class="stat-card card">
-                    <div class="stat-value">0</div>
+                    <div class="stat-value">{{ chapter_count|default:"0" }}</div>
                     <div class="stat-label">Chapters Downloaded</div>
                 </div>
                 <div class="stat-card card">
-                    <div class="stat-value">Idle</div>
+                    <div class="stat-value">{{ scraper_status|default:"Idle" }}</div>
                     <div class="stat-label">Scraper Status</div>
                 </div>
             </div>
