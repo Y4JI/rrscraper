@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - Royal Road Scraper</title>
-    <link rel="stylesheet" href="{% static 'css/user_settings/user_settings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_settings/user_settings.css' %}?v=20261116">
 </head>
 <body data-theme="{% if settings.dark_mode %}dark{% else %}light{% endif %}">
     <div class="settings-container">
         {% include 'includes/header.html' %}
 
         {% if messages %}
-            <div class="messages-container">
+            <div class="messages-container" role="status">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
                         {{ message }}
@@ -23,7 +23,7 @@
 
         <main class="page-main">
             <div class="page-title-section">
-                <span class="eyebrow">MAKE YOURSELF AT HOME</span><h2>A workspace that feels like you.</h2>
+                <span class="eyebrow">MAKE YOURSELF AT HOME</span><h1>A workspace that feels like you.</h1>
                 <p>Fine-tune your preferences. Small details, a more comfortable reading journey.</p>
             </div>
 
@@ -80,6 +80,6 @@
         </main>
         {% include 'includes/footer.html' %}
     </div>
-    <script src="{% static 'js/user_settings/user_settings.js' %}"></script>
+    <script src="{% static 'js/user_settings/user_settings.js' %}?v=20261116"></script>
 </body>
 </html>

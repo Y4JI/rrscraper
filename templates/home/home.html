@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Overview - Royal Road Scraper</title><link rel="stylesheet" href="{% static 'css/home/home.css' %}"></head>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Overview - Royal Road Scraper</title><link rel="stylesheet" href="{% static 'css/home/home.css' %}?v=20261116"></head>
 <body><div class="dashboard-shell">{% include 'includes/header.html' %}
 {% if messages %}<div class="messages-container" role="status">{% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
 <main>
@@ -13,4 +13,4 @@
 {% if recent_novels %}<ul class="novel-list">{% for novel in recent_novels %}<li><span class="novel-number">0{{ forloop.counter }}</span><div><h3>{{ novel.title }}</h3><p>{{ novel.author_name }}</p></div><span class="novel-status">{{ novel.get_status_display }}</span></li>{% endfor %}</ul>
 {% else %}<div class="empty-library"><div class="empty-book" aria-hidden="true">&#x2637;</div><h3>Your next favorite is waiting.</h3><p>Your library is a blank page for now. Saved titles will appear here once they are added to the collection.</p><span class="empty-caption">GOOD STORIES ARE WORTH THE WAIT</span></div>{% endif %}</section>
 <aside class="discovery-card card"><span class="eyebrow">ON THE HORIZON</span><h2>Find your<br>next chapter.</h2><p>Novel search is taking shape. For now, explore the workspace and make yourself at home.</p><label for="novelSearchInput">Preview novel search</label><div class="search-bar"><input type="search" id="novelSearchInput" placeholder="A title, author, or tag" aria-describedby="searchFeedback"><button id="novelSearchBtn" class="btn btn-primary" type="button">Preview search</button></div><p id="searchFeedback" class="search-feedback" role="status">Search preview only. Live discovery is coming soon.</p><a class="quiet-link" href="{% url 'profile:profile' %}">Make this space yours <span aria-hidden="true">&rarr;</span></a></aside></div>
-</main>{% include 'includes/footer.html' %}</div><script src="{% static 'js/home/home.js' %}"></script></body></html>
+</main>{% include 'includes/footer.html' %}</div><script src="{% static 'js/home/home.js' %}?v=20261116"></script></body></html>

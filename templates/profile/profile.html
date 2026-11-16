@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Royal Road Scraper</title>
-    <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}?v=20261116">
 </head>
 <body>
     <div class="profile-container">
         {% include 'includes/header.html' %}
 
         {% if messages %}
-            <div class="messages-container">
+            <div class="messages-container" role="status">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
                         {{ message }}
@@ -23,7 +23,7 @@
 
         <main class="page-main">
             <div class="page-title-section">
-                <span class="eyebrow">A LITTLE ABOUT YOU</span><h2>Your reader identity.</h2>
+                <span class="eyebrow">A LITTLE ABOUT YOU</span><h1>Your reader identity.</h1>
                 <p>Add a familiar face and tell your story. This little corner is yours.</p>
             </div>
 
@@ -103,6 +103,6 @@
         </main>
         {% include 'includes/footer.html' %}
     </div>
-    <script src="{% static 'js/profile/profile.js' %}"></script>
+    <script src="{% static 'js/profile/profile.js' %}?v=20261116"></script>
 </body>
 </html>
