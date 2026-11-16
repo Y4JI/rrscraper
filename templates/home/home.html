@@ -1,69 +1,16 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Royal Road Scraper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/home/home.css' %}">
-</head>
-<body>
-    <div class="dashboard">
-        <header class="dashboard-header">
-            <div class="header-content">
-                <h1 class="logo-text">Royal Road <span>Scraper</span></h1>
-                <nav class="main-nav">
-                    <span class="user-greeting">Logged in as: <strong>{{ request.user.username }}</strong></span>
-                    <a href="{% url 'home:home' %}" class="nav-link active">Home</a>
-                    <a href="{% url 'profile:profile' %}" class="nav-link">Profile</a>
-                    <a href="{% url 'user_settings:settings' %}" class="nav-link">Settings</a>
-                    <a href="{% url 'login:logout' %}" class="btn btn-outline">Logout</a>
-                </nav>
-            </div>
-        </header>
-
-        {% if messages %}
-            <div class="messages-container">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <main class="dashboard-main">
-            <div class="welcome-banner">
-                <h2>HOME SCREEN</h2>
-                <p>Welcome, {{ request.user.username }}! You are authenticated. The scraping features will be available soon.</p>
-            </div>
-
-            <div class="search-section card">
-                <h3>Find Novels</h3>
-                <p class="search-desc">Search the database for your favorite web fictions (Mock UI)</p>
-                <div class="search-bar">
-                    <input type="text" id="novelSearchInput" placeholder="Search novels by title, author, or tag...">
-                    <button id="novelSearchBtn" class="btn btn-primary">Search</button>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card card">
-                    <div class="stat-value">{{ novel_count|default:"0" }}</div>
-                    <div class="stat-label">Novels Scraped</div>
-                </div>
-                <div class="stat-card card">
-                    <div class="stat-value">{{ chapter_count|default:"0" }}</div>
-                    <div class="stat-label">Chapters Downloaded</div>
-                </div>
-                <div class="stat-card card">
-                    <div class="stat-value">{{ scraper_status|default:"Idle" }}</div>
-                    <div class="stat-label">Scraper Status</div>
-                </div>
-            </div>
-        </main>
-    </div>
-    <script src="{% static 'js/home/home.js' %}"></script>
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Overview - Royal Road Scraper</title><link rel="stylesheet" href="{% static 'css/home/home.css' %}"></head>
+<body><div class="dashboard-shell">{% include 'includes/header.html' %}
+{% if messages %}<div class="messages-container" role="status">{% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+<main>
+<section class="welcome-banner"><div><span class="eyebrow">YOUR READING WORKSPACE</span><h1>A good story starts here.</h1><p>Welcome back, {{ request.user.first_name|default:request.user.username }}. Here is your collection at a glance.</p></div><span class="workspace-mark" aria-hidden="true">R<span>EST. FOR READERS</span></span></section>
+<div class="stats-grid" aria-label="Collection statistics">
+<div class="stat-card card"><div class="stat-top"><span>THE COLLECTION</span><span class="stat-icon" aria-hidden="true">01</span></div><div class="stat-value">{{ novel_count }}</div><div class="stat-label">Novels in your library</div></div>
+<div class="stat-card card"><div class="stat-top"><span>BETWEEN THE PAGES</span><span class="stat-icon" aria-hidden="true">02</span></div><div class="stat-value">{{ chapter_count }}</div><div class="stat-label">Chapters downloaded</div></div>
+<div class="stat-card card"><div class="stat-top"><span>SCRAPER ACTIVITY</span><span class="stat-icon" aria-hidden="true">03</span></div><div class="stat-value status-value">{{ scraper_status|title }}</div><div class="stat-label">Latest recorded job status</div></div>
+</div>
+<div class="dashboard-grid"><section class="card library-card"><div class="section-heading"><div><h2>Recently added to your world</h2><p>The latest titles updated in your collection.</p></div><span class="pill">Library</span></div>
+{% if recent_novels %}<ul class="novel-list">{% for novel in recent_novels %}<li><span class="novel-number">0{{ forloop.counter }}</span><div><h3>{{ novel.title }}</h3><p>{{ novel.author_name }}</p></div><span class="novel-status">{{ novel.get_status_display }}</span></li>{% endfor %}</ul>
+{% else %}<div class="empty-library"><div class="empty-book" aria-hidden="true">&#x2637;</div><h3>Your next favorite is waiting.</h3><p>Your library is a blank page for now. Saved titles will appear here once they are added to the collection.</p><span class="empty-caption">GOOD STORIES ARE WORTH THE WAIT</span></div>{% endif %}</section>
+<aside class="discovery-card card"><span class="eyebrow">ON THE HORIZON</span><h2>Find your<br>next chapter.</h2><p>Novel search is taking shape. For now, explore the workspace and make yourself at home.</p><label for="novelSearchInput">Preview novel search</label><div class="search-bar"><input type="search" id="novelSearchInput" placeholder="A title, author, or tag" aria-describedby="searchFeedback"><button id="novelSearchBtn" class="btn btn-primary" type="button">Preview search</button></div><p id="searchFeedback" class="search-feedback" role="status">Search preview only. Live discovery is coming soon.</p><a class="quiet-link" href="{% url 'profile:profile' %}">Make this space yours <span aria-hidden="true">&rarr;</span></a></aside></div>
+</main>{% include 'includes/footer.html' %}</div><script src="{% static 'js/home/home.js' %}"></script></body></html>

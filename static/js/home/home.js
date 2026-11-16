@@ -1,23 +1,15 @@
-// Home feature client script
 document.addEventListener("DOMContentLoaded", () => {
-    const searchBtn = document.getElementById("novelSearchBtn");
-    const searchInput = document.getElementById("novelSearchInput");
-
-    if (searchBtn && searchInput) {
-        searchBtn.addEventListener("click", () => {
-            const query = searchInput.value.trim();
-            if (!query) {
-                alert("Please enter a novel title or keyword to search.");
-                searchInput.focus();
-                return;
-            }
-            alert(`Searching for: "${query}" (Feature coming soon)`);
-        });
-        
-        searchInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                searchBtn.click();
-            }
-        });
-    }
+    const button = document.getElementById("novelSearchBtn");
+    const input = document.getElementById("novelSearchInput");
+    const feedback = document.getElementById("searchFeedback");
+    if (!button || !input || !feedback) return;
+    button.addEventListener("click", () => {
+        feedback.textContent = input.value.trim()
+            ? "Live search is coming soon. Your collection is shown on the left."
+            : "Enter a title, author, or tag to preview search.";
+        input.focus();
+    });
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") { event.preventDefault(); button.click(); }
+    });
 });

@@ -1,0 +1,8 @@
+<header class="page-header"><div class="header-content">
+<a class="logo-text" href="{% url 'home:home' %}" aria-label="Royal Road Scraper home">Royal Road <span>Scraper</span></a>
+<nav class="main-nav" aria-label="Main navigation">
+<a href="{% url 'home:home' %}" class="nav-link {% if request.resolver_match.namespace == 'home' %}active{% endif %}" {% if request.resolver_match.namespace == 'home' %}aria-current="page"{% endif %}>Overview</a>
+<a href="{% url 'profile:profile' %}" class="nav-link {% if request.resolver_match.namespace == 'profile' %}active{% endif %}" {% if request.resolver_match.namespace == 'profile' %}aria-current="page"{% endif %}>Profile</a>
+<a href="{% url 'user_settings:settings' %}" class="nav-link {% if request.resolver_match.namespace == 'user_settings' %}active{% endif %}" {% if request.resolver_match.namespace == 'user_settings' %}aria-current="page"{% endif %}>Settings</a>
+<a href="{% url 'login:logout' %}" class="btn btn-outline">Log out <span aria-hidden="true">&nearr;</span></a>
+</nav></div></header>
