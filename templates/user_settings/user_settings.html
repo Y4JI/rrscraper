@@ -5,22 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - Royal Road Scraper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/user_settings/user_settings.css' %}">
 </head>
-<body>
+<body data-theme="{% if settings.dark_mode %}dark{% else %}light{% endif %}">
     <div class="settings-container">
-        <header class="page-header">
-            <div class="header-content">
-                <h1 class="logo-text">Royal Road <span>Scraper</span></h1>
-                <nav class="main-nav">
-                    <a href="{% url 'home:home' %}" class="nav-link">Home</a>
-                    <a href="{% url 'profile:profile' %}" class="nav-link">Profile</a>
-                    <a href="{% url 'user_settings:settings' %}" class="nav-link active">Settings</a>
-                    <a href="{% url 'login:logout' %}" class="btn btn-outline">Logout</a>
-                </nav>
-            </div>
-        </header>
+        {% include 'includes/header.html' %}
 
         {% if messages %}
             <div class="messages-container">
@@ -34,8 +23,8 @@
 
         <main class="page-main">
             <div class="page-title-section">
-                <h2>User Preferences & Settings</h2>
-                <p>Configure your application display, notifications, and reading environment.</p>
+                <span class="eyebrow">MAKE YOURSELF AT HOME</span><h2>A workspace that feels like you.</h2>
+                <p>Fine-tune your preferences. Small details, a more comfortable reading journey.</p>
             </div>
 
             <div class="settings-grid">
@@ -43,11 +32,11 @@
                     <form method="post" class="settings-form">
                         {% csrf_token %}
 
-                        <div class="settings-group">
+                        <div class="settings-section-heading"><h3>The little details</h3><p>Your preferences, all in one place.</p></div><div class="settings-group">
                             <div class="setting-item">
                                 <div class="setting-info">
-                                    <h4 class="setting-title">Dark Mode Appearance</h4>
-                                    <p class="setting-description">Use dark colors and high contrast interface optimized for extended reading sessions.</p>
+                                    <h4 class="setting-title" id="appearance-label">Dark appearance preview</h4>
+                                    <p class="setting-description">Preview a darker theme on this page. Save to keep your appearance preference.</p>
                                 </div>
                                 <div class="setting-control">
                                     <label class="switch" for="darkModeToggle">
@@ -59,8 +48,8 @@
 
                             <div class="setting-item">
                                 <div class="setting-info">
-                                    <h4 class="setting-title">Email Notifications</h4>
-                                    <p class="setting-description">Receive digest emails whenever tracked novels release new scraped chapters.</p>
+                                    <h4 class="setting-title" id="digest-label">Chapter digest preference</h4>
+                                    <p class="setting-description">Save your preference for future chapter digests. Email delivery is not available yet.</p>
                                 </div>
                                 <div class="setting-control">
                                     <label class="switch" for="emailNotificationsToggle">
@@ -78,17 +67,18 @@
                     </form>
                 </div>
 
-                <div class="card info-card">
-                    <h3>Account Security & Data</h3>
-                    <p class="info-desc">Account status synced with Supabase PostgreSQL cloud database.</p>
+                <aside class="card info-card"><span class="eyebrow">WORKSPACE DETAILS</span>
+                    <h3>Your account</h3>
+                    <p class="info-desc">The account you are currently signed in with.</p>
                     <ul class="info-list">
-                        <li><span>Status:</span> <strong class="badge-active">Active</strong></li>
+                        <li><span>Status:</span> <strong class="badge-active">{% if request.user.is_active %}Active{% else %}Inactive{% endif %}</strong></li>
                         <li><span>Connected User:</span> <strong>{{ request.user.username }}</strong></li>
                         <li><span>Role:</span> {% if request.user.is_superuser %}Administrator{% else %}Standard Member{% endif %}</li>
-                    </ul>
-                </div>
+                    </ul><p class="account-note">Your reading preferences stay connected to your account.</p>
+                </aside>
             </div>
         </main>
+        {% include 'includes/footer.html' %}
     </div>
     <script src="{% static 'js/user_settings/user_settings.js' %}"></script>
 </body>
