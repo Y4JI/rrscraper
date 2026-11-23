@@ -26,6 +26,7 @@ class Novel(models.Model):
     Stores web fiction metadata scraped from Royal Road.
     """
     STATUS_CHOICES = [
+        ("UNKNOWN", "Unknown"),
         ("ONGOING", "Ongoing"),
         ("COMPLETED", "Completed"),
         ("HIATUS", "Hiatus"),
@@ -37,7 +38,7 @@ class Novel(models.Model):
     author_name = models.CharField(max_length=150)
     synopsis = models.TextField(blank=True, null=True)
     cover_image_url = models.CharField(max_length=500, blank=True, null=True)
-    status = models.CharField(max_length=30, default="ONGOING", choices=STATUS_CHOICES)
+    status = models.CharField(max_length=30, default="UNKNOWN", choices=STATUS_CHOICES)
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     total_pages = models.IntegerField(default=0)
     source_url = models.CharField(max_length=500)
@@ -148,6 +149,7 @@ class Job(models.Model):
         blank=True,
         related_name="scraper_jobs"
     )
+    active_key = models.CharField(max_length=50, null=True, blank=True, unique=True)
     target_url = models.CharField(max_length=500)
     source = models.CharField(max_length=10, choices=Source.choices, default=Source.LEGACY)
     status = models.CharField(max_length=30, default="PENDING", choices=JOB_STATUS_CHOICES)

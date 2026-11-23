@@ -11,7 +11,7 @@ from .royalroad import CHAPTER_PATH, FICTION_PATH, SHORT_CHAPTER_PATH, RoyalRoad
 def parse_feed(xml, fiction_id):
     try:
         channel = ElementTree.fromstring(xml).find("channel")
-    except ElementTree.ParseError as exc:
+    except (ElementTree.ParseError, LookupError, UnicodeError) as exc:
         raise RoyalRoadError("Royal Road returned invalid RSS XML.") from exc
     title = channel.findtext("title", "").strip() if channel is not None else ""
     if not title or len(title) > 255:

@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,13 +25,26 @@ load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4@lp-xw13nnxqw&0&zzoe%9=g%4^x3n=7c^(883fkpc5@$8!b&'
+environment = os.environ.get("DJANGO_ENV", "development")
+if environment not in {"development", "production"}:
+    raise ImproperlyConfigured("DJANGO_ENV must be development or production.")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = environment == "development"
+ALLOWED_HOSTS = [host.strip() for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if host.strip()]
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
+if DEBUG:
+    SECRET_KEY = SECRET_KEY or "django-insecure-local-development-key-for-rrscraper"
+else:
+    if not SECRET_KEY or not ALLOWED_HOSTS:
+        raise ImproperlyConfigured("Production requires DJANGO_SECRET_KEY and DJANGO_ALLOWED_HOSTS.")
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get("DJANGO_HSTS_INCLUDE_SUBDOMAINS") == "1"
+    SECURE_HSTS_PRELOAD = (
+        SECURE_HSTS_INCLUDE_SUBDOMAINS and os.environ.get("DJANGO_HSTS_PRELOAD") == "1"
+    )
 
 
 # Application definition
@@ -90,7 +104,7 @@ if os.environ.get("DATABASE_URL"):
         "default": dj_database_url.parse(
             os.environ["DATABASE_URL"],
             conn_max_age=600,
-            ssl_require=True,
+            ssl_require=os.environ.get("DATABASE_SSL_REQUIRE", "1") != "0",
         )
     }
 else:
@@ -137,6 +151,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]

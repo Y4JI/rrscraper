@@ -102,3 +102,26 @@ class ImportNovelTests(TestCase):
         self.assertEqual(Chapter.objects.get().chapter_number, 1)
         self.assertEqual(Job.objects.get().status, "FAILED")
         self.assertEqual(Job.objects.get().chapters_scraped, 1)
+
+
+class QueueTests(TestCase):
+    def test_duplicate_active_imports_share_job_and_worker_completes(self):
+        from .importer import enqueue_rss
+        user = get_user_model().objects.create_user(username="queue-reader")
+        job, created = enqueue_rss(FICTION_URL, user)
+        self.assertTrue(created)
+        duplicate, created = enqueue_rss(FICTION_URL, user)
+        self.assertFalse(created)
+        self.assertEqual(job.pk, duplicate.pk)
+        with patch("apps.scraper.importer.fetch_page", return_value=b"<rss><channel><title>Queue novel</title></channel></rss>"):
+            call_command("process_imports", once=True, stdout=StringIO())
+        job.refresh_from_db()
+        self.assertEqual(job.status, "COMPLETED")
+        self.assertIsNone(job.active_key)
+        self.assertEqual(job.novel.status, "UNKNOWN")
+        self.assertTrue(enqueue_rss(FICTION_URL, user)[1])
+
+    def test_unsupported_encoding_is_domain_error(self):
+        from .parsers import parse_feed
+        with self.assertRaises(RoyalRoadError):
+            parse_feed(b'<?xml version="1.0" encoding="unknown-codec"?><rss/>', "139212")

@@ -9,7 +9,7 @@ from .parsers import parse_chapter, parse_feed, parse_fiction
 from .royalroad import CHAPTER_PATH, FICTION_PATH, RSS_PATH, RoyalRoadError, canonical_fiction, fetch_page
 
 
-def import_novel(url, user, max_chapters, *, from_rss=False, author_export=None):
+def import_novel(url, user, max_chapters, *, from_rss=False, author_export=None, job=None):
     fiction_id, url = canonical_fiction(url)
     if from_rss and author_export is not None:
         raise RoyalRoadError("Choose one import source.")
@@ -18,7 +18,7 @@ def import_novel(url, user, max_chapters, *, from_rss=False, author_export=None)
         source = Job.Source.RSS
     elif author_export is not None:
         source = Job.Source.AUTHOR
-    job = Job.objects.create(user=user, target_url=url, status="RUNNING", source=source)
+    job = job or Job.objects.create(user=user, target_url=url, status="RUNNING", source=source)
     try:
         if from_rss:
             feed_url = f"https://www.royalroad.com/fiction/syndication/{fiction_id}"
@@ -52,8 +52,9 @@ def import_novel(url, user, max_chapters, *, from_rss=False, author_export=None)
         job.status = "COMPLETED"
     finally:
         job.completed_at = timezone.now()
+        job.active_key = None
         job.save(update_fields=[
-            "status", "error_message", "completed_at", "novel", "chapters_scraped", "releases_imported",
+            "status", "error_message", "completed_at", "active_key", "novel", "chapters_scraped", "releases_imported",
         ])
     return job
 
@@ -86,3 +87,12 @@ def import_website(job, fiction_id, url, max_chapters):
         )
         job.chapters_scraped = number
         job.save(update_fields=["chapters_scraped"])
+
+
+def enqueue_rss(url, user):
+    fiction_id, url = canonical_fiction(url)
+    job, created = Job.objects.get_or_create(
+        active_key=fiction_id,
+        defaults={"user": user, "target_url": url, "source": Job.Source.RSS},
+    )
+    return job, created

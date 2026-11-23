@@ -35,6 +35,16 @@ class TrackerTests(TestCase):
         self.detail = reverse("tracker:novel_detail", args=[self.novel.pk])
         self.chapter_detail = reverse("tracker:chapter_detail", args=[self.novel.pk, self.chapter.pk])
 
+    def test_release_history_exposes_older_saved_releases(self):
+        for number in range(30, 42):
+            ChapterRelease.objects.create(novel=self.novel, royalroad_chapter_id=str(number),
+                title=f"Release {number}", source_url=f"https://www.royalroad.com/fiction/chapter/{number}")
+        first = self.client.get(self.detail)
+        second = self.client.get(self.detail, {"page": 2})
+        self.assertEqual(len(first.context["releases"]), 10)
+        self.assertEqual(len(second.context["releases"]), 3)
+        self.assertContains(second, "First release")
+
     def test_public_cannot_view_reader(self):
         self.client.logout()
         self.assertRedirects(self.client.get(self.detail), f"{reverse('login:login')}?next={self.detail}")

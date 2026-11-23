@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import password_validators_help_text_html, validate_password
 from django.core.exceptions import ValidationError
 
 class UserRegistrationForm(forms.ModelForm):
@@ -9,8 +10,7 @@ class UserRegistrationForm(forms.ModelForm):
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Create a password', 'id': 'password'}),
-        min_length=6,
-        help_text="Password must be at least 6 characters."
+        help_text=password_validators_help_text_html(),
     )
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password', 'id': 'confirm_password'}),
@@ -43,6 +43,13 @@ class UserRegistrationForm(forms.ModelForm):
 
         if password and confirm_password and password != confirm_password:
             self.add_error('confirm_password', "Passwords do not match.")
+
+        if password:
+            candidate = User(username=cleaned_data.get('username', ''), email=cleaned_data.get('email', ''))
+            try:
+                validate_password(password, candidate)
+            except ValidationError as exc:
+                self.add_error('password', exc)
 
         return cleaned_data
 

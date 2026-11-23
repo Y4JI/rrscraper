@@ -22,7 +22,7 @@
         <section class="welcome-banner" aria-labelledby="dashboard-title">
             <div>
                 <h1 id="dashboard-title">Reading library</h1>
-                <p>Welcome back, {{ request.user.first_name|default:request.user.username }}.</p>
+                <p>Welcome back, {{ display_name }}.</p>
             </div>
         </section>
 
@@ -73,7 +73,7 @@
                         {% if library_query %}
                             <h2 id="library-heading">Library results for “{{ library_query }}”</h2>
                         {% else %}
-                            <h2 id="library-heading">Recently added novels</h2>
+                            <h2 id="library-heading">All novels</h2>
                         {% endif %}
                     </div>
                     {% if library_query %}
@@ -96,6 +96,13 @@
                     <p class="empty-library">No novels matched your search.</p>
                 {% else %}
                     <p class="empty-library">Add a Royal Road novel to start your library.</p>
+                {% endif %}
+                {% if library_page.has_other_pages %}
+                    <nav aria-label="Library pages">
+                        {% if library_page.has_previous %}<a href="?q={{ library_query|urlencode }}&amp;page={{ library_page.previous_page_number }}">Previous</a>{% endif %}
+                        <span>Page {{ library_page.number }} of {{ library_page.paginator.num_pages }}</span>
+                        {% if library_page.has_next %}<a href="?q={{ library_query|urlencode }}&amp;page={{ library_page.next_page_number }}">Next</a>{% endif %}
+                    </nav>
                 {% endif %}
             </section>
 

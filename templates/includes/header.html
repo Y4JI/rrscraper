@@ -4,5 +4,5 @@
 <a href="{% url 'home:home' %}" class="nav-link {% if request.resolver_match.namespace == 'home' %}active{% endif %}" {% if request.resolver_match.namespace == 'home' %}aria-current="page"{% endif %}>Overview</a>
 <a href="{% url 'profile:profile' %}" class="nav-link {% if request.resolver_match.namespace == 'profile' %}active{% endif %}" {% if request.resolver_match.namespace == 'profile' %}aria-current="page"{% endif %}>Profile</a>
 <a href="{% url 'user_settings:settings' %}" class="nav-link {% if request.resolver_match.namespace == 'user_settings' %}active{% endif %}" {% if request.resolver_match.namespace == 'user_settings' %}aria-current="page"{% endif %}>Settings</a>
-<a href="{% url 'login:logout' %}" class="btn btn-outline">Log out <span aria-hidden="true">&nearr;</span></a>
+<form method="post" action="{% url 'login:logout' %}">{% csrf_token %}<button type="submit" class="btn btn-outline">Log out <span aria-hidden="true">&nearr;</span></button></form>
 </nav></div></header>

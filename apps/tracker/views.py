@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import F
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -33,12 +34,15 @@ def novel_detail(request, novel_id):
         valid_source = identify(novel.source_url, FICTION_PATH) == (novel.royalroad_id,)
     except RoyalRoadError:
         valid_source = False
-    releases = novel.releases.order_by(F("release_date").desc(nulls_last=True), "-pk")[:10]
+    releases = novel.releases.order_by(F("release_date").desc(nulls_last=True), "-pk")
+    release_page = Paginator(releases, 10).get_page(request.GET.get("page"))
 
     return render(request, "tracker/novel_detail.html", {
         "novel": novel,
+        "last_sync": novel.scraper_jobs.filter(source="RSS", status="COMPLETED").order_by("-completed_at").first(),
         "source_url": novel.source_url if valid_source else None,
-        "releases": [(release, release_url(release, novel.royalroad_id)) for release in releases],
+        "releases": [(release, release_url(release, novel.royalroad_id)) for release in release_page],
+        "release_page": release_page,
         "chapters": novel.chapters.defer("content"),
         "bookmark": bookmark,
     })

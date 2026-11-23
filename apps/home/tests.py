@@ -1,4 +1,6 @@
 from unittest.mock import patch
+from io import StringIO
+from django.core.management import call_command
 
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
@@ -16,6 +18,21 @@ class DashboardTests(TestCase):
         self.user = get_user_model().objects.create_user(username="reader")
         self.client.force_login(self.user)
         self.home = reverse("home:home")
+
+    def test_library_pagination_keeps_all_search_matches_accessible(self):
+        for number in range(12):
+            Novel.objects.create(royalroad_id=str(number), title=f"Match {number}", source_url=self.fiction_url)
+        first = self.client.get(self.home, {"q": "Match"})
+        second = self.client.get(self.home, {"q": "Match", "page": 2})
+        self.assertEqual(len(first.context["recent_novels"]), 10)
+        self.assertEqual(len(second.context["recent_novels"]), 2)
+        self.assertContains(first, "q=Match&amp;page=2")
+        self.assertEqual(self.client.get(self.home).context["library_page"].paginator.count, 12)
+
+    def test_dashboard_uses_saved_profile_name(self):
+        from apps.profile.models import Profile
+        Profile.objects.update_or_create(user=self.user, defaults={"full_name": "Reader Name"})
+        self.assertContains(self.client.get(self.home), "Welcome back, Reader Name.")
 
     def test_search_matches_title_author_and_tags_without_duplicates(self):
         novel = Novel.objects.create(
@@ -46,7 +63,7 @@ class DashboardTests(TestCase):
         csrf_client.force_login(self.user)
         self.assertEqual(csrf_client.post(self.home, {"fiction_url": self.fiction_url}).status_code, 403)
 
-    @patch("apps.home.views.import_novel")
+    @patch("apps.home.views.enqueue_rss")
     def test_import_rejects_non_fiction_and_non_royal_road_urls(self, importer):
         for url in (
             "https://example.com/fiction/139212",
@@ -65,6 +82,9 @@ class DashboardTests(TestCase):
         )
         response = self.client.post(self.home, {"fiction_url": f"{self.fiction_url}?utm=test"})
         self.assertRedirects(response, self.home)
+        self.assertEqual(Job.objects.get().status, "PENDING")
+        fetch.assert_not_called()
+        call_command("process_imports", once=True, stdout=StringIO())
         novel = Novel.objects.get()
         self.assertEqual(novel.source_url, self.fiction_url)
         job = Job.objects.get(user=self.user)
@@ -80,6 +100,8 @@ class DashboardTests(TestCase):
     def test_failed_import_shows_error_to_owner_only(self, fetch):
         fetch.side_effect = RoyalRoadError("Could not download releases.")
         response = self.client.post(self.home, {"fiction_url": self.fiction_url}, follow=True)
+        call_command("process_imports", once=True, stderr=StringIO())
+        response = self.client.get(self.home)
         self.assertContains(response, "Failed")
         self.assertContains(response, "Could not download releases.")
         self.assertEqual(Job.objects.get(user=self.user).status, "FAILED")

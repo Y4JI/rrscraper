@@ -14,6 +14,7 @@
             <div class="page-title-section">
                 <a href="{% url 'home:home' %}">Back to library</a>
                 <h1>{{ novel.title }}</h1>
+                {% if last_sync %}<p>Last release sync {{ last_sync.completed_at|date:"M j, Y, H:i T" }}</p>{% endif %}
                 {% if novel.author_name %}<p>By {{ novel.author_name }}</p>{% endif %}
                 {% if source_url %}<a class="btn btn-outline novel-source" href="{{ source_url }}">Open on Royal Road</a>{% endif %}
             </div>
@@ -33,7 +34,7 @@
                 </p>
             {% endif %}
             <section class="card chapter-panel">
-                <h2>Recent Royal Road releases</h2>
+                <h2>Royal Road release history</h2>
                 {% if releases %}
                     <ul class="chapter-list">
                         {% for release, link in releases %}
@@ -55,6 +56,13 @@
                     </ul>
                 {% else %}
                     <p>No release information saved yet.</p>
+                {% endif %}
+                {% if release_page.has_other_pages %}
+                    <nav aria-label="Release history pages">
+                        {% if release_page.has_previous %}<a href="?page={{ release_page.previous_page_number }}">Previous</a>{% endif %}
+                        <span>Page {{ release_page.number }} of {{ release_page.paginator.num_pages }}</span>
+                        {% if release_page.has_next %}<a href="?page={{ release_page.next_page_number }}">Next</a>{% endif %}
+                    </nav>
                 {% endif %}
             </section>
             <section class="card chapter-panel">

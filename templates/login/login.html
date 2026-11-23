@@ -38,6 +38,7 @@
 
             <form action="{% url 'login:login' %}" method="POST" class="auth-form">
                 {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
                 <div class="form-group">
                     <label for="username">Username or Email</label>
                     <input type="text" id="username" autocomplete="username" name="username" value="{{ request.POST.username|default:'' }}" placeholder="Enter your username or email" required>

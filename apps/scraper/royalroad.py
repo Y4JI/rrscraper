@@ -1,4 +1,5 @@
 import re
+from http.client import HTTPException
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, build_opener
@@ -60,7 +61,7 @@ def fetch_page(url, pattern, content_types=("text/html",)):
             page = response.read(MAX_PAGE_BYTES + 1)
     except HTTPError as exc:
         raise RoyalRoadError(f"Royal Road returned HTTP {exc.code} for {url}.") from exc
-    except (URLError, OSError) as exc:
+    except (URLError, OSError, HTTPException) as exc:
         raise RoyalRoadError(f"Could not fetch {url}: {exc}") from exc
     if len(page) > MAX_PAGE_BYTES:
         raise RoyalRoadError("Royal Road page exceeded the size limit.")

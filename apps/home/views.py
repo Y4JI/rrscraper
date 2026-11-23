@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import redirect, render
 
-from apps.scraper.importer import import_novel
+from apps.profile.models import Profile
+from apps.scraper.importer import enqueue_rss
 from apps.scraper.models import Chapter, Job, Novel
 from apps.scraper.royalroad import RoyalRoadError
 
@@ -17,13 +19,14 @@ def home_view(request):
         import_form = NovelImportForm(request.POST)
         if import_form.is_valid():
             try:
-                job = import_novel(
-                    import_form.cleaned_data["fiction_url"], request.user, 0, from_rss=True
-                )
+                _, created = enqueue_rss(import_form.cleaned_data["fiction_url"], request.user)
             except RoyalRoadError:
                 messages.error(request, "The Royal Road import failed. See the latest import for details.")
             else:
-                messages.success(request, f"Saved {job.novel.title} from Royal Road RSS.")
+                if created:
+                    messages.success(request, "Import queued. Refresh this page to see its progress.")
+                else:
+                    messages.info(request, "An import for this novel is already in progress. Check the library after it finishes.")
             return redirect("home:home")
 
     library_query = request.GET.get("q", "").strip()[:255]
@@ -35,13 +38,17 @@ def home_view(request):
             | Q(tags__name__icontains=library_query)
         ).distinct()
     else:
-        results = library[:5]
+        results = library
+    library_page = Paginator(results, 10).get_page(request.GET.get("page"))
+    display_name = Profile.objects.filter(user=request.user).values_list("full_name", flat=True).first()
 
     return render(request, "home/home.html", {
         "novel_count": library.count(),
         "chapter_count": Chapter.objects.count(),
         "latest_job": Job.objects.filter(user=request.user).order_by("-started_at", "-pk").first(),
-        "recent_novels": results,
+        "recent_novels": library_page,
+        "library_page": library_page,
+        "display_name": display_name or request.user.first_name or request.user.username,
         "library_query": library_query,
         "import_form": import_form,
     })
