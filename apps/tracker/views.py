@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import F
+from django.db.models import F, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -51,7 +51,25 @@ def novel_detail(request, novel_id):
 @login_required
 def chapter_detail(request, novel_id, chapter_id):
     chapter = get_object_or_404(Chapter.objects.select_related("novel"), pk=chapter_id, novel_id=novel_id)
-    return render(request, "tracker/chapter_detail.html", {"chapter": chapter})
+    if request.method == "POST":
+        Bookmark.objects.update_or_create(
+            user=request.user, novel_id=novel_id,
+            defaults={"last_read_chapter": chapter, "last_read_release": None, "last_read_at": timezone.now()},
+        )
+        messages.success(request, "Reading progress saved.")
+        return redirect("tracker:chapter_detail", novel_id=novel_id, chapter_id=chapter_id)
+    chapters = Chapter.objects.filter(novel_id=novel_id).defer("content")
+    previous_chapter = chapters.filter(
+        Q(chapter_number__lt=chapter.chapter_number)
+        | Q(chapter_number=chapter.chapter_number, pk__lt=chapter.pk)
+    ).order_by("-chapter_number", "-pk").first()
+    next_chapter = chapters.filter(
+        Q(chapter_number__gt=chapter.chapter_number)
+        | Q(chapter_number=chapter.chapter_number, pk__gt=chapter.pk)
+    ).order_by("chapter_number", "pk").first()
+    return render(request, "tracker/chapter_detail.html", {
+        "chapter": chapter, "previous_chapter": previous_chapter, "next_chapter": next_chapter,
+    })
 
 
 @login_required

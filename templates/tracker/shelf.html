@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Following | Royal Road Scraper</title><link rel="stylesheet" href="{% static 'css/tracker/tracker.css' %}"></head>
+<body><div class="dashboard-shell">{% include 'includes/header.html' %}<main>
+<h1>Following and Continue Reading</h1>
+{% for bookmark, resume, new_count in entries %}
+<section class="card chapter-panel">
+<h2><a href="{% url 'tracker:novel_detail' bookmark.novel.pk %}">{{ bookmark.novel.title }}</a></h2>
+{% if new_count %}<p>{{ new_count }} new release{{ new_count|pluralize }}</p>{% endif %}
+{% if resume %}<a class="btn btn-outline" href="{{ resume }}">Resume reading</a>{% else %}<a href="{% url 'tracker:novel_detail' bookmark.novel.pk %}">Choose a chapter</a>{% endif %}
+</section>
+{% empty %}<p>Follow a novel from its detail page to keep it here.</p>{% endfor %}
+{% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">Previous</a>{% endif %}
+{% if page.has_next %}<a href="?page={{ page.next_page_number }}">Next</a>{% endif %}
+</main>{% include 'includes/footer.html' %}</div></body></html>

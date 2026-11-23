@@ -45,6 +45,7 @@ class Bookmark(models.Model):
         choices=READING_STATUS_CHOICES
     )
     is_favorite = models.BooleanField(default=False)
+    is_following = models.BooleanField(default=True)
     last_read_at = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
 

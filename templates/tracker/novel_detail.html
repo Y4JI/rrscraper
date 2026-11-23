@@ -14,6 +14,12 @@
             <div class="page-title-section">
                 <a href="{% url 'home:home' %}">Back to library</a>
                 <h1>{{ novel.title }}</h1>
+                <form method="post" action="{% url 'tracker:follow' novel.pk %}">
+                    {% csrf_token %}
+                    {% if bookmark.is_following %}<button class="btn btn-outline" name="action" value="unfollow">Unfollow</button>
+                    {% else %}<button class="btn btn-outline" name="action" value="follow">Follow novel</button>{% endif %}
+                </form>
+                <a href="{% url 'tracker:shelf' %}">Following and Continue Reading</a>
                 {% if last_sync %}<p>Last release sync {{ last_sync.completed_at|date:"M j, Y, H:i T" }}</p>{% endif %}
                 {% if novel.author_name %}<p>By {{ novel.author_name }}</p>{% endif %}
                 {% if source_url %}<a class="btn btn-outline novel-source" href="{{ source_url }}">Open on Royal Road</a>{% endif %}

@@ -15,13 +15,20 @@
                 <a href="{% url 'tracker:novel_detail' chapter.novel_id %}">{{ chapter.novel.title }}</a>
                 <h1>{{ chapter.title }}</h1>
             </div>
+            {% if messages %}
+                <div role="status">{% for message in messages %}<p class="alert">{{ message }}</p>{% endfor %}</div>
+            {% endif %}
             <article class="card chapter-panel chapter-content">
                 {{ chapter.content|linebreaks }}
             </article>
-            <form method="post" action="{% url 'tracker:mark_read' chapter.novel_id 'chapter' chapter.pk %}">
+            <form method="post" action="{% url 'tracker:chapter_detail' chapter.novel_id chapter.pk %}">
                 {% csrf_token %}
-                <button class="btn btn-primary" type="submit">Mark as read</button>
+                <button class="btn btn-primary" type="submit">Save reading progress</button>
             </form>
+            <nav class="reader-navigation" aria-label="Chapter navigation">
+                {% if previous_chapter %}<a rel="prev" href="{% url 'tracker:chapter_detail' chapter.novel_id previous_chapter.pk %}">Previous chapter <span>{{ previous_chapter.title }}</span></a>{% endif %}
+                {% if next_chapter %}<a rel="next" href="{% url 'tracker:chapter_detail' chapter.novel_id next_chapter.pk %}">Next chapter <span>{{ next_chapter.title }}</span></a>{% endif %}
+            </nav>
         </main>
         {% include 'includes/footer.html' %}
     </div>

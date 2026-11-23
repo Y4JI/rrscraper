@@ -70,6 +70,17 @@
     margin-top: 1em;
 }
 
+.reader-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.reader-navigation a { max-width: 32ch; overflow-wrap: anywhere; }
+.reader-navigation span { display: block; font-size: 14px; }
+
 .visually-hidden {
     position: absolute;
     width: 1px;
