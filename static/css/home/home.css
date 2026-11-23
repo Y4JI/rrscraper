@@ -1,5 +1,170 @@
 @import url("../shared.css");
-.welcome-banner{display:flex;align-items:center;justify-content:space-between;gap:32px;margin:12px 0 32px}.welcome-banner h1{font:400 clamp(34px,4vw,48px)/1.15 Georgia,serif;letter-spacing:-1.5px;margin:12px 0}.welcome-banner p{color:var(--muted);max-width:580px}.workspace-mark{font:italic 70px/1 Georgia,serif;color:var(--gold);padding:0 24px;text-align:center}.workspace-mark span{display:block;font:9px/1.5 'Segoe UI',sans-serif;letter-spacing:2px;margin-top:8px;color:var(--muted)}
-.stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:28px}.stat-card{padding:24px}.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:10px;letter-spacing:1.5px;font-weight:650}.stat-icon{font:italic 20px Georgia,serif;color:var(--gold)}.stat-value{font:400 44px/1.2 Georgia,serif;margin:20px 0 8px;color:var(--accent)}.status-value{font-size:32px;min-height:53px;display:flex;align-items:center;overflow-wrap:anywhere}.stat-label{font-size:12px;color:var(--muted)}
-.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:24px}.library-card{padding:26px}.section-heading h2{font-size:17px;font-weight:650}.empty-library{text-align:center;padding:38px 24px 25px}.empty-book{display:grid;place-items:center;border:1px solid #cbdacc;background:var(--accent-soft);color:var(--accent);width:60px;height:68px;margin:0 auto 20px;border-radius:7px 14px 14px 7px;font:40px Georgia,serif;box-shadow:4px 4px 0 #e8e8df}.empty-library h3{font:400 24px Georgia,serif;margin-bottom:12px}.empty-library p{color:var(--muted);font-size:13px;max-width:330px;margin:auto}.empty-caption{display:block;font-size:9px;letter-spacing:1.6px;color:var(--muted);margin-top:25px}.discovery-card{background:#eaf0e5;padding:30px;box-shadow:none}.discovery-card h2{font:400 34px/1.15 Georgia,serif;letter-spacing:-1px;margin:16px 0}.discovery-card>p{font-size:13px;color:var(--muted)}.discovery-card label{display:block;font-size:12px;font-weight:650;margin:22px 0 8px}.search-bar{display:flex;flex-direction:column;gap:9px}.search-bar input{background:var(--surface)}.search-feedback{font-size:11px!important;line-height:1.5;margin-top:10px;min-height:34px}.quiet-link{display:flex;justify-content:space-between;border-top:1px solid #cfdbcc;padding-top:18px;margin-top:20px;font-size:12px;font-weight:650}.novel-list{list-style:none}.novel-list li{display:flex;align-items:center;gap:16px;padding:20px 0;border-top:1px solid var(--line)}.novel-number{font:italic 22px Georgia,serif;color:var(--gold)}.novel-list h3{font-size:14px;overflow-wrap:anywhere}.novel-list p{font-size:12px;color:var(--muted)}.novel-status{margin-left:auto;font-size:10px;color:var(--accent)}
-@media(max-width:800px){.dashboard-grid{grid-template-columns:1fr}.workspace-mark{display:none}.stat-card{padding:18px}.stat-top{font-size:9px;letter-spacing:.6px}}@media(max-width:480px){.stats-grid{grid-template-columns:1fr;gap:10px}.stat-card{display:grid;grid-template-columns:1fr auto;column-gap:12px}.stat-top{grid-column:1}.stat-value{grid-column:2;grid-row:1/3;margin:0;font-size:32px;min-height:0}.stat-label{grid-column:1}.stat-icon{display:none}.library-card,.discovery-card{padding:22px}.section-heading .pill{display:none}}
+
+.welcome-banner {
+    margin: 12px 0 32px;
+}
+
+.welcome-banner h1 {
+    margin-bottom: 8px;
+    font: 400 clamp(32px, 4vw, 48px)/1.15 Georgia, serif;
+    letter-spacing: -1.5px;
+}
+
+.welcome-banner p,
+.stat-label {
+    color: var(--muted);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    padding: 24px;
+}
+
+.stat-top {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.stat-value {
+    margin: 12px 0 6px;
+    color: var(--accent);
+    font: 400 44px/1.2 Georgia, serif;
+}
+
+.status-value {
+    font-size: 32px;
+}
+
+.stat-label {
+    font-size: 12px;
+}
+
+.import-error {
+    overflow-wrap: anywhere;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 24px;
+}
+
+.library-card,
+.discovery-card {
+    padding: 26px;
+}
+
+.library-card h2 {
+    font-size: 17px;
+    overflow-wrap: anywhere;
+}
+
+.library-card .section-heading a {
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.empty-library {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    color: var(--muted);
+}
+
+.discovery-card {
+    align-self: start;
+    background: #eaf0e5;
+    box-shadow: none;
+}
+
+.discovery-card form + form {
+    border-top: 1px solid #cfdbcc;
+    margin-top: 24px;
+    padding-top: 24px;
+}
+
+.discovery-card h2 {
+    font: 400 25px/1.2 Georgia, serif;
+}
+
+.discovery-card label {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.search-bar input {
+    background: var(--surface);
+}
+
+.search-bar .errorlist {
+    list-style: none;
+    color: #a63535;
+    font-size: 13px;
+}
+
+.search-bar button:disabled {
+    cursor: wait;
+    opacity: 0.75;
+    transform: none;
+}
+
+.novel-list {
+    list-style: none;
+}
+
+.novel-list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid var(--line);
+    padding: 16px 0;
+}
+
+.novel-list h3 {
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+.novel-list p,
+.novel-status {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+@media (max-width: 800px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 590px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .stat-card,
+    .library-card,
+    .discovery-card {
+        padding: 20px;
+    }
+
+    .stat-value {
+        font-size: 32px;
+    }
+}

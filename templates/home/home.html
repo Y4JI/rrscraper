@@ -1,16 +1,128 @@
 {% load static %}
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Overview - Royal Road Scraper</title><link rel="stylesheet" href="{% static 'css/home/home.css' %}?v=20261116"></head>
-<body><div class="dashboard-shell">{% include 'includes/header.html' %}
-{% if messages %}<div class="messages-container" role="status">{% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
-<main>
-<section class="welcome-banner"><div><span class="eyebrow">YOUR READING WORKSPACE</span><h1>A good story starts here.</h1><p>Welcome back, {{ request.user.first_name|default:request.user.username }}. Here is your collection at a glance.</p></div><span class="workspace-mark" aria-hidden="true">R<span>EST. FOR READERS</span></span></section>
-<div class="stats-grid" aria-label="Collection statistics">
-<div class="stat-card card"><div class="stat-top"><span>THE COLLECTION</span><span class="stat-icon" aria-hidden="true">01</span></div><div class="stat-value">{{ novel_count }}</div><div class="stat-label">Novels in your library</div></div>
-<div class="stat-card card"><div class="stat-top"><span>BETWEEN THE PAGES</span><span class="stat-icon" aria-hidden="true">02</span></div><div class="stat-value">{{ chapter_count }}</div><div class="stat-label">Chapters downloaded</div></div>
-<div class="stat-card card"><div class="stat-top"><span>SCRAPER ACTIVITY</span><span class="stat-icon" aria-hidden="true">03</span></div><div class="stat-value status-value">{{ scraper_status|title }}</div><div class="stat-label">Latest recorded job status</div></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview - Royal Road Scraper</title>
+    <link rel="stylesheet" href="{% static 'css/home/home.css' %}?v=20261123">
+    <script src="{% static 'js/home/home.js' %}?v=20261123" defer></script>
+</head>
+<body>
+<div class="dashboard-shell">
+    {% include 'includes/header.html' %}
+    {% if messages %}
+        <div class="messages-container" role="status">
+            {% for message in messages %}
+                <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <main>
+        <section class="welcome-banner" aria-labelledby="dashboard-title">
+            <div>
+                <h1 id="dashboard-title">Reading library</h1>
+                <p>Welcome back, {{ request.user.first_name|default:request.user.username }}.</p>
+            </div>
+        </section>
+
+        <div class="stats-grid" aria-label="Collection and import activity">
+            <section class="stat-card card" aria-labelledby="novels-label">
+                <h2 class="stat-top" id="novels-label">Novels in the library</h2>
+                <p class="stat-value">{{ novel_count }}</p>
+            </section>
+            <section class="stat-card card" aria-labelledby="chapters-label">
+                <h2 class="stat-top" id="chapters-label">Chapters downloaded</h2>
+                <p class="stat-value">{{ chapter_count }}</p>
+            </section>
+            <section class="stat-card card" aria-labelledby="import-status-label">
+                <h2 class="stat-top" id="import-status-label">Your latest import</h2>
+                <p class="stat-value status-value">
+                    {% if latest_job.status == 'COMPLETED' and latest_job.source == 'RSS' %}
+                        Title imported
+                    {% elif latest_job %}
+                        {{ latest_job.get_status_display }}
+                    {% else %}
+                        Idle
+                    {% endif %}
+                </p>
+                {% if latest_job %}
+                    <p class="stat-label">
+                        {{ latest_job.get_source_display }} &middot;
+                        <time datetime="{{ latest_job.started_at|date:'c' }}">{{ latest_job.started_at|date:"M j, Y, H:i T" }}</time>
+                    </p>
+                    {% if latest_job.status == 'COMPLETED' %}
+                        <p class="stat-label">{{ latest_job.chapters_scraped }} chapter{{ latest_job.chapters_scraped|pluralize }} downloaded</p>
+                        {% if latest_job.source == 'RSS' %}
+                            <p class="stat-label">{{ latest_job.releases_imported }} release{{ latest_job.releases_imported|pluralize }} synced</p>
+                        {% endif %}
+                    {% endif %}
+                    {% if latest_job.error_message %}
+                        <p class="field-error import-error">{{ latest_job.error_message }}</p>
+                    {% endif %}
+                {% else %}
+                    <p class="stat-label">You haven’t run an import yet.</p>
+                {% endif %}
+            </section>
+        </div>
+
+        <div class="dashboard-grid">
+            <section class="card library-card" aria-labelledby="library-heading">
+                <div class="section-heading">
+                    <div>
+                        {% if library_query %}
+                            <h2 id="library-heading">Library results for “{{ library_query }}”</h2>
+                        {% else %}
+                            <h2 id="library-heading">Recently added novels</h2>
+                        {% endif %}
+                    </div>
+                    {% if library_query %}
+                        <a href="{% url 'home:home' %}">Clear search</a>
+                    {% endif %}
+                </div>
+                {% if recent_novels %}
+                    <ul class="novel-list">
+                        {% for novel in recent_novels %}
+                            <li>
+                                <div>
+                                    <h3><a href="{% url 'tracker:novel_detail' novel_id=novel.pk %}">{{ novel.title }}</a></h3>
+                                    {% if novel.author_name %}<p>{{ novel.author_name }}</p>{% endif %}
+                                </div>
+                                <span class="novel-status">{{ novel.get_status_display }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% elif library_query %}
+                    <p class="empty-library">No novels matched your search.</p>
+                {% else %}
+                    <p class="empty-library">Add a Royal Road novel to start your library.</p>
+                {% endif %}
+            </section>
+
+            <aside class="discovery-card card" aria-label="Library tools">
+                <form action="{% url 'home:home' %}" method="get">
+                    <h2>Search your library</h2>
+                    <label for="library-search">Title, author, or tag</label>
+                    <div class="search-bar">
+                        <input type="search" id="library-search" name="q" value="{{ library_query }}" maxlength="255">
+                        <button class="btn btn-outline" type="submit">Search</button>
+                    </div>
+                </form>
+                <form id="novel-import-form" action="{% url 'home:home' %}" method="post">
+                    {% csrf_token %}
+                    <h2>Add a Royal Road novel</h2>
+                    <p class="field-hint">Import the title and recent releases from Royal Road RSS.</p>
+                    {{ import_form.fiction_url.label_tag }}
+                    <div class="search-bar">
+                        {{ import_form.fiction_url }}
+                        {{ import_form.fiction_url.errors }}
+                        <button class="btn btn-primary" type="submit">Import novel</button>
+                    </div>
+                </form>
+            </aside>
+        </div>
+    </main>
+    {% include 'includes/footer.html' %}
 </div>
-<div class="dashboard-grid"><section class="card library-card"><div class="section-heading"><div><h2>Recently added to your world</h2><p>The latest titles updated in your collection.</p></div><span class="pill">Library</span></div>
-{% if recent_novels %}<ul class="novel-list">{% for novel in recent_novels %}<li><span class="novel-number">0{{ forloop.counter }}</span><div><h3>{{ novel.title }}</h3><p>{{ novel.author_name }}</p></div><span class="novel-status">{{ novel.get_status_display }}</span></li>{% endfor %}</ul>
-{% else %}<div class="empty-library"><div class="empty-book" aria-hidden="true">&#x2637;</div><h3>Your next favorite is waiting.</h3><p>Your library is a blank page for now. Saved titles will appear here once they are added to the collection.</p><span class="empty-caption">GOOD STORIES ARE WORTH THE WAIT</span></div>{% endif %}</section>
-<aside class="discovery-card card"><span class="eyebrow">ON THE HORIZON</span><h2>Find your<br>next chapter.</h2><p>Novel search is taking shape. For now, explore the workspace and make yourself at home.</p><label for="novelSearchInput">Preview novel search</label><div class="search-bar"><input type="search" id="novelSearchInput" placeholder="A title, author, or tag" aria-describedby="searchFeedback"><button id="novelSearchBtn" class="btn btn-primary" type="button">Preview search</button></div><p id="searchFeedback" class="search-feedback" role="status">Search preview only. Live discovery is coming soon.</p><a class="quiet-link" href="{% url 'profile:profile' %}">Make this space yours <span aria-hidden="true">&rarr;</span></a></aside></div>
-</main>{% include 'includes/footer.html' %}</div><script src="{% static 'js/home/home.js' %}?v=20261116"></script></body></html>
+</body>
+</html>

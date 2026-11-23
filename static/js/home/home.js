@@ -1,15 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const button = document.getElementById("novelSearchBtn");
-    const input = document.getElementById("novelSearchInput");
-    const feedback = document.getElementById("searchFeedback");
-    if (!button || !input || !feedback) return;
-    button.addEventListener("click", () => {
-        feedback.textContent = input.value.trim()
-            ? "Live search is coming soon. Your collection is shown on the left."
-            : "Enter a title, author, or tag to preview search.";
-        input.focus();
-    });
-    input.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") { event.preventDefault(); button.click(); }
-    });
+const importForm = document.getElementById("novel-import-form");
+const importButton = importForm.querySelector("button[type='submit']");
+
+importForm.addEventListener("submit", (event) => {
+    if (importButton.disabled) {
+        event.preventDefault();
+        return;
+    }
+    importButton.disabled = true;
+    importButton.textContent = "Importing…";
+});
+
+window.addEventListener("pageshow", () => {
+    importButton.disabled = false;
+    importButton.textContent = "Import novel";
 });
