@@ -150,6 +150,8 @@ class Job(models.Model):
         related_name="scraper_jobs"
     )
     active_key = models.CharField(max_length=50, null=True, blank=True, unique=True)
+    attempts = models.PositiveIntegerField(default=0)
+    retry_at = models.DateTimeField(null=True, blank=True)
     target_url = models.CharField(max_length=500)
     source = models.CharField(max_length=10, choices=Source.choices, default=Source.LEGACY)
     status = models.CharField(max_length=30, default="PENDING", choices=JOB_STATUS_CHOICES)
@@ -167,3 +169,8 @@ class Job(models.Model):
 
     def __str__(self):
         return f"Job #{self.id} [{self.status}] - {self.target_url}"
+
+
+class WorkerHeartbeat(models.Model):
+    name = models.CharField(max_length=30, primary_key=True)
+    last_seen = models.DateTimeField()

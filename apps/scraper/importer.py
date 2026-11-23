@@ -1,4 +1,5 @@
 from time import sleep
+from datetime import timedelta
 
 from django.db import transaction
 from django.utils import timezone
@@ -7,6 +8,7 @@ from .author_export import read_author_export
 from .models import Chapter, ChapterRelease, Job, Novel
 from .parsers import parse_chapter, parse_feed, parse_fiction
 from .royalroad import CHAPTER_PATH, FICTION_PATH, RSS_PATH, RoyalRoadError, canonical_fiction, fetch_page
+from .royalroad import TemporaryRoyalRoadError
 
 
 def import_novel(url, user, max_chapters, *, from_rss=False, author_export=None, job=None):
@@ -47,14 +49,21 @@ def import_novel(url, user, max_chapters, *, from_rss=False, author_export=None,
     except (Exception, KeyboardInterrupt) as exc:
         job.status = "FAILED"
         job.error_message = str(exc) or "Import interrupted."
+        if isinstance(exc, TemporaryRoyalRoadError) and job.active_key and job.attempts < 3:
+            job.status = "PENDING"
+            job.retry_at = timezone.now() + timedelta(seconds=30 * 2 ** max(job.attempts - 1, 0))
         raise
     else:
         job.status = "COMPLETED"
     finally:
         job.completed_at = timezone.now()
-        job.active_key = None
+        if job.status != "PENDING":
+            job.active_key = None
+            job.retry_at = None
+        else:
+            job.completed_at = None
         job.save(update_fields=[
-            "status", "error_message", "completed_at", "active_key", "novel", "chapters_scraped", "releases_imported",
+            "status", "error_message", "completed_at", "active_key", "retry_at", "novel", "chapters_scraped", "releases_imported",
         ])
     return job
 

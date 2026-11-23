@@ -19,6 +19,10 @@ class RoyalRoadError(ValueError):
     pass
 
 
+class TemporaryRoyalRoadError(RoyalRoadError):
+    pass
+
+
 def identify(url, pattern):
     try:
         parts = urlsplit(url)
@@ -60,9 +64,11 @@ def fetch_page(url, pattern, content_types=("text/html",)):
                 raise RoyalRoadError("Royal Road returned an unexpected content type.")
             page = response.read(MAX_PAGE_BYTES + 1)
     except HTTPError as exc:
+        if exc.code in {408, 429, 500, 502, 503, 504}:
+            raise TemporaryRoyalRoadError(f"Royal Road returned HTTP {exc.code} for {url}.") from exc
         raise RoyalRoadError(f"Royal Road returned HTTP {exc.code} for {url}.") from exc
     except (URLError, OSError, HTTPException) as exc:
-        raise RoyalRoadError(f"Could not fetch {url}: {exc}") from exc
+        raise TemporaryRoyalRoadError(f"Could not fetch {url}: {exc}") from exc
     if len(page) > MAX_PAGE_BYTES:
         raise RoyalRoadError("Royal Road page exceeded the size limit.")
     return page
