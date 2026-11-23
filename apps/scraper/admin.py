@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tag, Novel, NovelTag, Chapter, Job
+from .models import Chapter, ChapterRelease, Job, Novel, NovelTag, Tag
 
 
 class NovelTagInline(admin.TabularInline):
@@ -29,8 +29,15 @@ class ChapterAdmin(admin.ModelAdmin):
     search_fields = ("title", "content", "royalroad_chapter_id")
 
 
+@admin.register(ChapterRelease)
+class ChapterReleaseAdmin(admin.ModelAdmin):
+    list_display = ("title", "novel", "release_date", "royalroad_chapter_id")
+    list_filter = ("release_date",)
+    search_fields = ("title", "novel__title", "royalroad_chapter_id")
+
+
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "target_url", "status", "chapters_scraped", "started_at")
-    list_filter = ("status", "started_at")
+    list_display = ("id", "user", "source", "status", "releases_imported", "chapters_scraped", "started_at")
+    list_filter = ("source", "status", "started_at")
     search_fields = ("target_url", "user__username")

@@ -93,9 +93,33 @@ class Chapter(models.Model):
         verbose_name = "Chapter"
         verbose_name_plural = "Chapters"
         ordering = ["novel", "chapter_number"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["novel", "royalroad_chapter_id"], name="unique_novel_source_chapter"
+            )
+        ]
 
     def __str__(self):
         return f"{self.novel.title} - Ch. {self.chapter_number}: {self.title}"
+
+
+class ChapterRelease(models.Model):
+    novel = models.ForeignKey(Novel, on_delete=models.CASCADE, related_name="releases")
+    royalroad_chapter_id = models.CharField(max_length=50)
+    title = models.CharField(max_length=255)
+    source_url = models.URLField(max_length=500)
+    release_date = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = [models.F("release_date").desc(nulls_last=True), "-pk"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["novel", "royalroad_chapter_id"], name="unique_novel_release"
+            )
+        ]
+
+    def __str__(self):
+        return self.title
 
 
 class Job(models.Model):
@@ -110,6 +134,12 @@ class Job(models.Model):
         ("FAILED", "Failed"),
     ]
 
+    class Source(models.TextChoices):
+        LEGACY = "LEGACY", "Earlier import"
+        RSS = "RSS", "Royal Road RSS"
+        WEB = "WEB", "Royal Road website"
+        AUTHOR = "AUTHOR", "Author-provided export"
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scraper_jobs")
     novel = models.ForeignKey(
         Novel,
@@ -119,8 +149,10 @@ class Job(models.Model):
         related_name="scraper_jobs"
     )
     target_url = models.CharField(max_length=500)
+    source = models.CharField(max_length=10, choices=Source.choices, default=Source.LEGACY)
     status = models.CharField(max_length=30, default="PENDING", choices=JOB_STATUS_CHOICES)
     chapters_scraped = models.IntegerField(default=0)
+    releases_imported = models.PositiveIntegerField(default=0)
     error_message = models.TextField(blank=True, null=True)
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
