@@ -1,6 +1,6 @@
 # Royal Road Scraper and Reading Tracker
 
-This Django app imports fiction titles and recent release links from Royal Road’s official RSS feeds. Signed-in users share the local library and can save their own reading progress.
+This Django app imports fiction titles and recent release links from Royal Road’s official RSS feeds. Signed-in users share the local library and have a personal **Following** shelf with new-release counts and links to resume reading.
 
 ## Run locally on Windows
 
@@ -23,7 +23,7 @@ Paste its Royal Road fiction URL into the dashboard form. Run the import worker 
 .\.venv\Scripts\python.exe manage.py process_imports
 ```
 
-RSS imports capture the title and recent releases. Follow a release link to read it on Royal Road. The dashboard reports downloaded chapter bodies independently of RSS releases. Use `process_imports --once` to drain the queue and exit. To retry a failed import, submit the fiction URL again. After stopping a worker that was interrupted during an active job, use `process_imports --recover-job JOB_ID --once` to return that job to the queue and process it.
+RSS imports capture the title and recent releases. Follow a release link to read it on Royal Road. The dashboard refreshes import status and shows whether the worker is online. Temporary upstream failures are retried up to twice with a delay. Use `process_imports --once` to process jobs that are due and exit. If a job exhausts its retries, submit the fiction URL again. After stopping a worker that was interrupted during an active job, use `process_imports --recover-job JOB_ID --once` to return that job to the queue and process it.
 
 The command line also supports RSS imports. Use the username of an existing local account.
 

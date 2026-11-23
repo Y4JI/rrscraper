@@ -34,6 +34,17 @@ class DashboardTests(TestCase):
         Profile.objects.update_or_create(user=self.user, defaults={"full_name": "Reader Name"})
         self.assertContains(self.client.get(self.home), "Welcome back, Reader Name.")
 
+    @patch("apps.home.views.worker_is_online", return_value=False)
+    def test_status_poll_is_private_and_reports_offline_worker(self, worker_online):
+        status_url = reverse("home:import_status")
+        other = get_user_model().objects.create_user(username="other")
+        Job.objects.create(user=other, target_url=self.fiction_url, status="FAILED", error_message="Other job details")
+        response = self.client.get(status_url)
+        self.assertContains(response, "Import worker offline")
+        self.assertNotContains(response, "Other job details")
+        self.assertIn("no-store", response.headers["Cache-Control"])
+        self.assertEqual(Client().get(status_url).status_code, 302)
+
     def test_search_matches_title_author_and_tags_without_duplicates(self):
         novel = Novel.objects.create(
             royalroad_id="139212",

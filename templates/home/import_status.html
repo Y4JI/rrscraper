@@ -1,0 +1,35 @@
+<p class="stat-value status-value">
+    {% if latest_job.status == 'COMPLETED' and latest_job.source == 'RSS' %}
+        Title imported
+    {% elif latest_job.retry_at and latest_job.status == 'PENDING' %}
+        Waiting to retry
+    {% elif latest_job %}
+        {{ latest_job.get_status_display }}
+    {% else %}
+        Idle
+    {% endif %}
+</p>
+<p class="stat-label">{% if worker_online %}Import worker online{% else %}Import worker offline. Queued imports wait for the worker.{% endif %}</p>
+{% if latest_job %}
+    <p class="stat-label">
+        {{ latest_job.get_source_display }} &middot;
+        <time datetime="{{ latest_job.started_at|date:'c' }}">{{ latest_job.started_at|date:"M j, Y, H:i T" }}</time>
+    </p>
+    {% if latest_job.retry_at and latest_job.status == 'PENDING' %}
+        <p class="stat-label">Retry scheduled for <time datetime="{{ latest_job.retry_at|date:'c' }}">{{ latest_job.retry_at|date:"M j, Y, H:i:s T" }}</time>.</p>
+    {% endif %}
+    {% if latest_job.status == 'COMPLETED' %}
+        <p class="stat-label">{{ latest_job.chapters_scraped }} chapter{{ latest_job.chapters_scraped|pluralize }} downloaded</p>
+        {% if latest_job.source == 'RSS' %}
+            <p class="stat-label">{{ latest_job.releases_imported }} release{{ latest_job.releases_imported|pluralize }} synced</p>
+        {% endif %}
+        {% if latest_job.novel %}
+            <p class="stat-label"><a href="{% url 'tracker:novel_detail' latest_job.novel_id %}">{{ latest_job.novel.title }}</a></p>
+        {% endif %}
+    {% endif %}
+    {% if latest_job.error_message %}
+        <p class="field-error import-error">{{ latest_job.error_message }}</p>
+    {% endif %}
+{% else %}
+    <p class="stat-label">You haven’t run an import yet.</p>
+{% endif %}
