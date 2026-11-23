@@ -1,0 +1,88 @@
+@import url("../shared.css");
+
+.novel-source {
+    margin-top: 16px;
+}
+
+.novel-synopsis {
+    max-width: 70ch;
+    margin-bottom: 24px;
+}
+
+.reading-progress {
+    margin-bottom: 20px;
+}
+
+.reading-progress strong {
+    margin-right: 8px;
+}
+
+.chapter-panel {
+    padding: clamp(18px, 3vw, 30px);
+    margin-bottom: 20px;
+}
+
+.chapter-panel h2 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.chapter-panel > p,
+.chapter-list time {
+    color: var(--muted);
+}
+
+.chapter-list {
+    list-style: none;
+}
+
+.chapter-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+    overflow-wrap: anywhere;
+}
+
+.chapter-list time {
+    display: block;
+    font-size: 13px;
+}
+
+.chapter-list .btn,
+.chapter-list .pill {
+    white-space: nowrap;
+}
+
+.chapter-reader {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.chapter-content {
+    font-size: 17px;
+    overflow-wrap: anywhere;
+}
+
+.chapter-content p + p {
+    margin-top: 1em;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .chapter-list li {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

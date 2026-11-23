@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ novel.title }} | Royal Road Scraper</title>
+    <link rel="stylesheet" href="{% static 'css/tracker/tracker.css' %}">
+</head>
+<body>
+    <div class="dashboard-shell">
+        {% include 'includes/header.html' %}
+        <main>
+            <div class="page-title-section">
+                <a href="{% url 'home:home' %}">Back to library</a>
+                <h1>{{ novel.title }}</h1>
+                {% if novel.author_name %}<p>By {{ novel.author_name }}</p>{% endif %}
+                {% if source_url %}<a class="btn btn-outline novel-source" href="{{ source_url }}">Open on Royal Road</a>{% endif %}
+            </div>
+            {% if messages %}
+                <div class="messages-container" role="status">
+                    {% for message in messages %}<p class="alert alert-{{ message.tags }}">{{ message }}</p>{% endfor %}
+                </div>
+            {% endif %}
+            {% if novel.synopsis %}
+                <div class="novel-synopsis">{{ novel.synopsis|linebreaks }}</div>
+            {% endif %}
+            {% if bookmark.last_read_release or bookmark.last_read_chapter %}
+                <p class="reading-progress">
+                    <strong>Last read</strong>
+                    {% if bookmark.last_read_release %}{{ bookmark.last_read_release.title }}
+                    {% else %}{{ bookmark.last_read_chapter.title }}{% endif %}
+                </p>
+            {% endif %}
+            <section class="card chapter-panel">
+                <h2>Recent Royal Road releases</h2>
+                {% if releases %}
+                    <ul class="chapter-list">
+                        {% for release, link in releases %}
+                            <li>
+                                <div>
+                                    {% if link %}<a href="{{ link }}">{{ release.title }}</a>{% else %}{{ release.title }}{% endif %}
+                                    {% if release.release_date %}<time datetime="{{ release.release_date|date:'c' }}">{{ release.release_date|date:"M j, Y" }}</time>{% endif %}
+                                </div>
+                                {% if bookmark.last_read_release_id == release.pk %}
+                                    <span class="pill">Last read</span>
+                                {% else %}
+                                    <form method="post" action="{% url 'tracker:mark_read' novel.pk 'release' release.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline" type="submit">Mark as read<span class="visually-hidden"> · {{ release.title }}</span></button>
+                                    </form>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No release information saved yet.</p>
+                {% endif %}
+            </section>
+            <section class="card chapter-panel">
+                <h2>Downloaded chapters</h2>
+                {% if chapters %}
+                    <ul class="chapter-list">
+                        {% for chapter in chapters %}
+                            <li>
+                                <a href="{% url 'tracker:chapter_detail' novel.pk chapter.pk %}">{{ chapter.title }}</a>
+                                {% if bookmark.last_read_chapter_id == chapter.pk %}<span class="pill">Last read</span>{% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No full chapters downloaded yet.</p>
+                {% endif %}
+            </section>
+        </main>
+        {% include 'includes/footer.html' %}
+    </div>
+</body>
+</html>

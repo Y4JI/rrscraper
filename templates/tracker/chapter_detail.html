@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ chapter.title }} | {{ chapter.novel.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/tracker/tracker.css' %}">
+</head>
+<body>
+    <div class="dashboard-shell">
+        {% include 'includes/header.html' %}
+        <main class="chapter-reader">
+            <div class="page-title-section">
+                <a href="{% url 'tracker:novel_detail' chapter.novel_id %}">{{ chapter.novel.title }}</a>
+                <h1>{{ chapter.title }}</h1>
+            </div>
+            <article class="card chapter-panel chapter-content">
+                {{ chapter.content|linebreaks }}
+            </article>
+            <form method="post" action="{% url 'tracker:mark_read' chapter.novel_id 'chapter' chapter.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit">Mark as read</button>
+            </form>
+        </main>
+        {% include 'includes/footer.html' %}
+    </div>
+</body>
+</html>

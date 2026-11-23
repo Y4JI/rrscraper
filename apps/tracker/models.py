@@ -32,6 +32,13 @@ class Bookmark(models.Model):
         blank=True,
         related_name="bookmarks"
     )
+    last_read_release = models.ForeignKey(
+        "scraper.ChapterRelease",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="bookmarks",
+    )
     reading_status = models.CharField(
         max_length=30,
         default="READING",
